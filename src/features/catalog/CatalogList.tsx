@@ -11,6 +11,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { PostItem } from '../post';
 import Separator from '../ui/Separator';
+import { CatalogPage, OriginalPost } from '../../types/catalog';
 
 
 const catalogUrl = (board: string) => `https://a.4cdn.org/${board}/catalog.json`;
@@ -37,7 +38,12 @@ export default function CatalogList({ board }: CatalogListProps) {
         try {
             const response = await fetch(catalogUrl(board));
             const json = await response.json();
-            setData(json[0].threads);
+
+            const threads = json
+                .map((page: CatalogPage) => page.threads)
+                .flat();
+
+            setData(threads);
         } catch (error) {
             console.error(error);
         } finally {
@@ -55,7 +61,7 @@ export default function CatalogList({ board }: CatalogListProps) {
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
                     data={data}
-                    keyExtractor={(item: any) => item.no}
+                    keyExtractor={(item: OriginalPost) => String(item.no)}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
