@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     StyleSheet,
     Text,
     Pressable,
+    Linking,
+    Alert
 } from 'react-native';
 
 
@@ -11,13 +13,19 @@ type WebLinkProps = {
 };
 
 export default function WebLink({ url }: WebLinkProps) {
-    const handleOnPress = () => {
-        // TODO: Open link in WebView
-        console.log(`Pressed on WebLink: ${url}`);
-    }
+
+    const handlePress = useCallback(async () => {
+        const supported = await Linking.canOpenURL(url);
+
+        if (supported) {
+            await Linking.openURL(url);
+        } else {
+            Alert.alert(`Don't know how to open this URL: ${url}`);
+        }
+    }, [url]);
 
     return (
-        <Pressable onPress={handleOnPress}>
+        <Pressable onPress={handlePress}>
             <Text style={styles.weblink}>
                 {url}
             </Text>

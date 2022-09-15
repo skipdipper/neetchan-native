@@ -20,6 +20,7 @@ export default function RenderHtml({ html }: RenderHtmlProps) {
             const urlRegex = /(https?:\/\/[^\s]+)/g;
             const parts = textNode.data.split(urlRegex);
             return (
+                // TODO: Fix nested Text overflowing
                 <Text key={index} selectable={true} selectionColor='orange' style={{ textAlignVertical: 'top' }}>
                     {
                         parts.map((part: string, index: number) => (part.match(urlRegex)
@@ -117,7 +118,7 @@ export default function RenderHtml({ html }: RenderHtmlProps) {
     }
 
 
-    const document = parseDocument(html);
+    const document = parseDocument(html.replace('<wbr>', ''));
     return (
         <Text>{document.children.map((c, i) => renderNode(c, i))}</Text>
     );
