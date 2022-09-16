@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import AppStatusBar from '../features/ui/AppStatusBar';
 import Thread from '../features/thread/Thread';
+import { ThreadProvider } from '../features/thread/ThreadContext';
 
 
 type ThreadScreenProps = {
@@ -16,7 +17,9 @@ export default function ThreadScreen({ navigation, route }: ThreadScreenProps) {
     return (
         <SafeAreaView style={styles.container}>
             <AppStatusBar />
-            <Thread board={'a'} />
+            <ThreadProvider>
+                <Thread board={'a'} />
+            </ThreadProvider>
         </SafeAreaView>
     )
 };
