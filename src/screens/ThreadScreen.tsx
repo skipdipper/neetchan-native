@@ -3,7 +3,7 @@ import {
     SafeAreaView,
     StyleSheet,
 } from 'react-native';
-import AppStatusBar from '../features/ui/AppStatusBar';
+import { AppStatusBar } from '../features/ui';
 import Thread from '../features/thread/Thread';
 import { ThreadProvider } from '../features/thread/ThreadContext';
 

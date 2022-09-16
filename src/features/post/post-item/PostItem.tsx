@@ -3,14 +3,8 @@ import {
     View,
     StyleSheet,
 } from 'react-native';
-import PostDetails from './PostDetails';
-import Subject from './Subject';
-import Comment from './Comment';
-import Thumbnail from './Thumbnail';
-import FileDetails from './FileDetails';
-import Replies from './Replies';
+import { Comment, FileDetails, PostDetails, Replies, Subject, Thumbnail } from '.';
 import { Spacer } from '../../ui';
-
 
 
 type PostItemProps = {

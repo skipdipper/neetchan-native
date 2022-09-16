@@ -5,7 +5,7 @@ import {
     ActivityIndicator,
     Image,
 } from 'react-native';
-import AppStatusBar from '../features/ui/AppStatusBar';
+import { AppStatusBar } from '../features/ui';
 
 
 const userImage = (board: string, tim: number, ext: string) => `https://i.4cdn.org/${board}/${tim}${ext}`;

@@ -3,7 +3,7 @@ import {
     SafeAreaView,
     StyleSheet,
 } from 'react-native';
-import AppStatusBar from '../features/ui/AppStatusBar';
+import { AppStatusBar } from '../features/ui';
 import CatalogList from '../features/catalog/CatalogList';
 
 

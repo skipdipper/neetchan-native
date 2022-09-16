@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { PostItem } from '../post';
-import Separator from '../ui/Separator';
+import { Separator } from '../ui';
 import { CatalogPage, OriginalPost } from '../../types/catalog';
 
 
