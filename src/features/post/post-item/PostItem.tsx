@@ -8,6 +8,9 @@ import Subject from './Subject';
 import Comment from './Comment';
 import Thumbnail from './Thumbnail';
 import FileDetails from './FileDetails';
+import Replies from './Replies';
+import { Spacer } from '../../ui';
+
 
 
 type PostItemProps = {
@@ -50,6 +53,14 @@ export default function PostItem({ item, catalog = false }: PostItemProps) {
 
                 {item?.com &&
                     <Comment comment={item?.com} catalog={catalog} />
+                }
+
+                {/* Alternative to Wrapping Replies inside a View 
+                with flex: 1, justifyContent: 'flex-end' */}
+                <Spacer />
+
+                {item?.postReplies &&
+                    <Replies replies={item.postReplies} />
                 }
             </View>
         </View>

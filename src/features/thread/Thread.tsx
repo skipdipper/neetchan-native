@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, createContext } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
     StyleSheet,
     View,
@@ -8,8 +8,9 @@ import {
 } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { PostItem } from '../post';
-import Separator from '../ui/Separator';
+import { Separator } from '../ui';
 import { useThreadContext, ThreadContextInterface } from './ThreadContext';
+import { getQuoteIds } from '../../lib/getQuoteIds';
 
 
 const threadUrl = (board: string, no: number) => `https://a.4cdn.org/${board}/thread/${no}.json`;
@@ -48,6 +49,24 @@ export default function Thread({ board }: ThreadProps) {
                     return [post.no, { ...post }];
                 })
             );
+
+            // Populate Post Reply Ids for each post
+            json.posts.forEach((post: any) => {
+                const comment: string | undefined = post.com;
+                if (!comment) return;
+
+                const postIds = getQuoteIds(comment);
+                postIds.forEach(postId => {
+                    if (!thread.has(postId)) return;
+
+                    if (thread.get(postId).postReplies) {
+                        thread.get(postId).postReplies.add(post.no);
+                    } else {
+                        thread.get(postId).postReplies = new Set([post.no]);
+                    }
+                });
+            });
+
             setData(thread);
         } catch (error) {
             console.error(error);
