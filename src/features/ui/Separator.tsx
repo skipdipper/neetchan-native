@@ -5,16 +5,25 @@ import {
 } from 'react-native';
 
 
-export default function Separator() {
+type SeparatorProps = {
+    direction?: 'horizontal' | 'vertical';
+};
+
+export default function Separator({ direction = 'horizontal' }: SeparatorProps) {
     return (
-        <View style={styles.separator}></View>
+        <View style={direction === 'horizontal' ? styles.horizontal : styles.vertical}></View>
     )
 }
 
 const styles = StyleSheet.create({
-    separator: {
+    horizontal: {
         margin: 4,
         borderBottomColor: '#737373',
         borderBottomWidth: StyleSheet.hairlineWidth,
+    },
+    vertical: {
+        margin: 4,
+        borderRightColor: '#737373',
+        borderRightWidth: StyleSheet.hairlineWidth,
     },
 });

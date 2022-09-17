@@ -64,7 +64,7 @@ export default function PostItem({ item, catalog = false }: PostItemProps) {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        flex: 1,
+        // flex: 1,
         paddingVertical: 4,
     },
     thumbnailContainer: {
@@ -74,5 +74,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         flex: 1,
         justifyContent: 'flex-start',
+        // marginLeft: 8
     }
-})
+});
