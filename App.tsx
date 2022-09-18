@@ -5,12 +5,15 @@ import CatalogScreen from './src/screens/CatalogScreen';
 import GalleryScreen from './src/screens/GalleryScreen';
 import ThreadScreen from './src/screens/ThreadScreen';
 import GalleryHeaderBar from './src/features/gallery/GalleryHeaderBar';
+import { CatalogProvider } from './src/features/catalog/CatalogContext';
+import { SearchProvider } from './src/features/search/SearchContext';
+import CatalogHeaderBar from './src/features/catalog/CatalogHeaderBar';
 
 
 const App = () => {
   const Stack = createNativeStackNavigator();
 
-  return (
+  const AppNavigation = () => (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Catalog"
@@ -20,7 +23,11 @@ const App = () => {
           <Stack.Screen
             name="Catalog"
             component={CatalogScreen}
-            options={{ title: 'Catalog' }}
+            options={{
+              header: () => (
+                <CatalogHeaderBar />
+              )
+            }}
           />
 
           <Stack.Screen
@@ -50,6 +57,14 @@ const App = () => {
     </NavigationContainer>
   )
 
+  return (
+    // Provider cannot be directly wrapped around Stack.Navigator
+    <CatalogProvider>
+      <SearchProvider>
+        <AppNavigation />
+      </SearchProvider>
+    </CatalogProvider>
+  )
 };
 
 export default App;

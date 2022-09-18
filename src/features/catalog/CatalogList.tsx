@@ -12,6 +12,8 @@ import { useNavigation } from '@react-navigation/native';
 import { PostItem } from '../post';
 import { Separator } from '../ui';
 import { CatalogPage, OriginalPost } from '../../types/catalog';
+import { CatalogContextInterface, useCatalogContext } from './CatalogContext';
+import { useSearchContext, SearchContextInterface } from '../search/SearchContext';
 
 
 const catalogUrl = (board: string) => `https://a.4cdn.org/${board}/catalog.json`;
@@ -22,9 +24,9 @@ type CatalogListProps = {
 
 export default function CatalogList({ board }: CatalogListProps) {
     const navigation = useNavigation<any>();
-
     const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
+    const { data, setData } = useCatalogContext() as CatalogContextInterface;
+    const { searchText, filteredData } = useSearchContext() as SearchContextInterface;
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
@@ -60,7 +62,8 @@ export default function CatalogList({ board }: CatalogListProps) {
         <View style={styles.container}>
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
-                    data={data}
+                    // TODO: Extract Search result into separate component 
+                    data={searchText ? filteredData : data}
                     keyExtractor={(item: OriginalPost) => String(item.no)}
                     refreshControl={
                         <RefreshControl
