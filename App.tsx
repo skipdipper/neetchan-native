@@ -7,6 +7,7 @@ import ThreadScreen from './src/screens/ThreadScreen';
 import GalleryHeaderBar from './src/features/gallery/GalleryHeaderBar';
 import { CatalogProvider } from './src/features/catalog/CatalogContext';
 import { SearchProvider } from './src/features/search/SearchContext';
+import { SearchActiveProvider } from './src/features/search/SearchActiveContext';
 import CatalogHeaderBar from './src/features/catalog/CatalogHeaderBar';
 
 
@@ -61,7 +62,9 @@ const App = () => {
     // Provider cannot be directly wrapped around Stack.Navigator
     <CatalogProvider>
       <SearchProvider>
-        <AppNavigation />
+        <SearchActiveProvider>
+          <AppNavigation />
+        </SearchActiveProvider>
       </SearchProvider>
     </CatalogProvider>
   )

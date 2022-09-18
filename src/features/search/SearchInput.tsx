@@ -2,18 +2,23 @@ import React from 'react';
 import { StyleSheet, TextInput, View, Text } from 'react-native';
 import { useCatalogContext, CatalogContextInterface } from '../catalog/CatalogContext';
 import { SearchContextInterface, useSearchContext } from './SearchContext';
+import { SearchActiveContextInterface, useSearchActiveContext } from './SearchActiveContext';
 
 export default function SearchInput() {
     const { data } = useCatalogContext() as CatalogContextInterface;
     const { searchText, setSearchText, filteredData, setFilteredData } = useSearchContext() as SearchContextInterface;
+    const { setSearchActive } = useSearchActiveContext() as SearchActiveContextInterface;
 
     const handeChangeText = (changedText: string) => {
         setSearchText(changedText);
 
         if (!changedText) {
             console.log('Search input empty');
+            setSearchActive(false);
             return;
         }
+
+        setSearchActive(true);
         console.log('filtering...');
         // TODO: filter OP latest replies
         const matches: Array<any> = data.filter((item: any) => {
@@ -42,7 +47,6 @@ export default function SearchInput() {
                 }
             </Text>
         </View>
-
     );
 };
 

@@ -1,19 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import {
     StyleSheet,
-    Text,
     View,
     FlatList,
     ActivityIndicator,
     RefreshControl,
-    Pressable,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { PostItem } from '../post';
 import { Separator } from '../ui';
 import { CatalogPage, OriginalPost } from '../../types/catalog';
 import { CatalogContextInterface, useCatalogContext } from './CatalogContext';
-import { useSearchContext, SearchContextInterface } from '../search/SearchContext';
+import CatalogListItem from './CatalogListItem';
 
 
 const catalogUrl = (board: string) => `https://a.4cdn.org/${board}/catalog.json`;
@@ -23,20 +19,20 @@ type CatalogListProps = {
 };
 
 export default function CatalogList({ board }: CatalogListProps) {
-    const navigation = useNavigation<any>();
     const [isLoading, setLoading] = useState(true);
     const { data, setData } = useCatalogContext() as CatalogContextInterface;
-    const { searchText, filteredData } = useSearchContext() as SearchContextInterface;
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         getCatalog();
         setRefreshing(false);
-
+        console.log('useCallBack for CatalogList ran');
     }, []);
+    console.log('CatalogList Render');
 
     const getCatalog = async () => {
+        console.log('Fetching Catalog from API');
         try {
             const response = await fetch(catalogUrl(board));
             const json = await response.json();
@@ -54,16 +50,27 @@ export default function CatalogList({ board }: CatalogListProps) {
     }
 
     useEffect(() => {
+        console.log('useEffect for CatalogList ran');
+        // console.log('Number of OPs:', data.length);
+
+        // Use stale Data after canceling Search Filtering 
+        if (data?.length) {
+            // console.log('NOT fetching Catalog from API');
+            setLoading(false);
+            return;
+        }
         getCatalog();
     }, []);
 
+    const renderItem = ({ item }: { item: OriginalPost }) => (
+        <CatalogListItem item={item} />
+    );
 
     return (
         <View style={styles.container}>
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
-                    // TODO: Extract Search result into separate component 
-                    data={searchText ? filteredData : data}
+                    data={data}
                     keyExtractor={(item: OriginalPost) => String(item.no)}
                     refreshControl={
                         <RefreshControl
@@ -71,20 +78,7 @@ export default function CatalogList({ board }: CatalogListProps) {
                             onRefresh={onRefresh}
                         />
                     }
-                    renderItem={({ item }) => (
-                        <Pressable android_ripple={{ color: '#dddddd' }} onPress={() => {
-                            console.log(`Pressed on thread ${item.no}`);
-                            navigation.navigate('Thread', { no: item.no });
-                        }
-                        }>
-                            <PostItem item={item} catalog={true} />
-
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text>{item.replies} replies, </Text>
-                                <Text>{item.images} images</Text>
-                            </View>
-                        </Pressable>
-                    )}
+                    renderItem={renderItem}
                     ItemSeparatorComponent={Separator}
                 />
             )}
@@ -98,5 +92,5 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         paddingHorizontal: 4,
     },
-})
+});
 
