@@ -21,7 +21,9 @@ export default function CatalogListItem({ item }: CatalogListItemProps) {
         <View style={styles.container}>
             <Pressable android_ripple={{ color: '#dddddd' }} onPress={() => {
                 console.log(`Pressed on thread ${item.no}`);
-                navigation.navigate('Thread', { no: item.no });
+                // Navigating to NestedThread inside nested navigator
+                navigation.navigate('Thread', { screen: 'NestedThread', params: { no: item.no } });
+
             }}>
                 <PostItem item={item} catalog={true} />
 

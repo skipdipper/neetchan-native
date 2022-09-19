@@ -9,7 +9,43 @@ import { CatalogProvider } from './src/features/catalog/CatalogContext';
 import { SearchProvider } from './src/features/search/SearchContext';
 import { SearchActiveProvider } from './src/features/search/SearchActiveContext';
 import CatalogHeaderBar from './src/features/catalog/CatalogHeaderBar';
+import { ThreadProvider } from './src/features/thread/ThreadContext';
 
+// Nested Stack Navigator
+// Hack to Provide separate ThreadContext for different instances of ThreadScreen and GalleryScreen
+// and not single global ThreadContext 
+const ThreadStackScreen = () => {
+  const ThreadStack = createNativeStackNavigator();
+
+  return (
+    <ThreadProvider>
+      <ThreadStack.Navigator>
+        <ThreadStack.Screen
+          name="NestedThread"
+          component={ThreadScreen}
+          options={({ route }: { route: any }) => ({ title: String(route.params.no) })}
+        />
+
+        <ThreadStack.Group screenOptions={{ presentation: 'transparentModal' }}>
+          <ThreadStack.Screen
+            name="Gallery"
+            component={GalleryScreen}
+            options={({ route }: { route: any }) => ({
+              // TODO: use custom header component with buttons
+              headerTitle: () => (
+                <GalleryHeaderBar
+                  filename={route.params.filename}
+                  extension={route.params.extension}
+                />
+              ),
+
+            })}
+          />
+        </ThreadStack.Group>
+      </ThreadStack.Navigator>
+    </ThreadProvider>
+  );
+}
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -33,8 +69,10 @@ const App = () => {
 
           <Stack.Screen
             name="Thread"
-            component={ThreadScreen}
-            options={({ route }: { route: any }) => ({ title: String(route.params.no) })}
+            // component={ThreadScreen}
+            component={ThreadStackScreen}
+            options={{ headerShown: false }}
+          // options={({ route }: { route: any }) => ({ title: String(route.params.no) })}
           />
         </Stack.Group>
 

@@ -15,9 +15,10 @@ type ThumbnailProps = {
     tim: number,
     filename: string,
     extension: string,
+    catalog: boolean,
 };
 
-export default function Thumbnail({ tim, filename, extension }: ThumbnailProps) {
+export default function Thumbnail({ tim, filename, extension, catalog }: ThumbnailProps) {
     const [isLoading, setIsLoading] = useState(true);
     const navigation = useNavigation<any>();
 
@@ -25,7 +26,7 @@ export default function Thumbnail({ tim, filename, extension }: ThumbnailProps) 
         <View style={styles.container}>
             <Pressable onPress={() => {
                 console.log(`Pressed on Thumbnail ${tim}${extension}`);
-                navigation.navigate('Gallery', { tim: tim, filename: filename, extension: extension });
+                navigation.navigate('Gallery', { tim: tim, filename: filename, extension: extension, catalog: catalog });
             }}
             >
                 <Image

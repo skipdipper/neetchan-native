@@ -20,8 +20,9 @@ export default function PostItem({ item, catalog = false }: PostItemProps) {
                     <Thumbnail
                         tim={item.tim}
                         filename={item.filename}
-                        extension={item.ext} /
-                    >
+                        extension={item.ext}
+                        catalog={catalog}
+                    />
                 }
             </View>
 
