@@ -3,12 +3,14 @@ import {
     SafeAreaView,
     StyleSheet,
     ActivityIndicator,
-    Image,
 } from 'react-native';
+import GalleryImage from '../features/gallery/GalleryImage';
+import GalleryVideo from '../features/gallery/GalleryVideo';
 import { AppStatusBar } from '../features/ui';
 
 
-const userImage = (board: string, tim: number, ext: string) => `https://i.4cdn.org/${board}/${tim}${ext}`;
+const fileUrl = (board: string, tim: number, ext: string) => `https://i.4cdn.org/${board}/${tim}${ext}`;
+const thumbnailUrl = (board: string, tim: number) => `https://i.4cdn.org/${board}/${tim}s.jpg`;
 
 type GalleryScreenProps = {
     navigation: any,
@@ -19,17 +21,23 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
     const { tim, extension } = route.params;
     const [isLoading, setIsLoading] = useState(true);
 
+    const uri = fileUrl('a', tim, extension);
+    const poster = thumbnailUrl('a', tim);
+
+    const handleLoad = () => {
+        setIsLoading(false);
+    }
+
+    const videoFormat = ['.webm', '.mp4', 'm4v', 'mpg', 'avi'];
+
     return (
         <SafeAreaView style={styles.container}>
             <AppStatusBar />
-            <Image
-                // TODO: fix size to width: '100%' or height: '100%'
-                style={{ width: 400, height: 400 }}
-                source={{
-                    uri: userImage('a', tim, extension),
-                }}
-                onLoadEnd={() => setIsLoading(false)}
-            />
+            {videoFormat.includes(extension)
+                ? <GalleryVideo uri={uri} poster={poster} onLoad={handleLoad} />
+                : <GalleryImage uri={uri} onLoad={handleLoad} />
+            }
+
             <ActivityIndicator style={{ position: 'absolute' }}
                 animating={isLoading}
             />
@@ -44,4 +52,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'rgba(54, 54, 54, 0.9)'
     }
-})
+});
