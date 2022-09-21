@@ -10,6 +10,7 @@ import { SearchProvider } from './src/features/search/SearchContext';
 import { SearchActiveProvider } from './src/features/search/SearchActiveContext';
 import CatalogHeaderBar from './src/features/catalog/CatalogHeaderBar';
 import { ThreadProvider } from './src/features/thread/ThreadContext';
+import { ModalVisibilityProvider } from './src/features/ui/modal/ModalVisibilityContext';
 
 // Nested Stack Navigator
 // Hack to Provide separate ThreadContext for different instances of ThreadScreen and GalleryScreen
@@ -19,30 +20,34 @@ const ThreadStackScreen = () => {
 
   return (
     <ThreadProvider>
-      <ThreadStack.Navigator>
-        <ThreadStack.Screen
-          name="NestedThread"
-          component={ThreadScreen}
-          options={({ route }: { route: any }) => ({ title: String(route.params.no) })}
-        />
-
-        <ThreadStack.Group screenOptions={{ presentation: 'transparentModal' }}>
+      <ModalVisibilityProvider>
+        <ThreadStack.Navigator>
           <ThreadStack.Screen
-            name="Gallery"
-            component={GalleryScreen}
+            name="NestedThread"
+            component={ThreadScreen}
             options={({ route }: { route: any }) => ({
-              // TODO: use custom header component with buttons
-              headerTitle: () => (
-                <GalleryHeaderBar
-                  filename={route.params.filename}
-                  extension={route.params.extension}
-                />
-              ),
-
+              title: String(route.params.no)
             })}
           />
-        </ThreadStack.Group>
-      </ThreadStack.Navigator>
+
+          <ThreadStack.Group screenOptions={{ presentation: 'transparentModal' }}>
+            <ThreadStack.Screen
+              name="Gallery"
+              component={GalleryScreen}
+              options={({ route }: { route: any }) => ({
+                // TODO: use custom header component with buttons
+                headerTitle: () => (
+                  <GalleryHeaderBar
+                    filename={route.params.filename}
+                    extension={route.params.extension}
+                  />
+                ),
+
+              })}
+            />
+          </ThreadStack.Group>
+        </ThreadStack.Navigator>
+      </ModalVisibilityProvider>
     </ThreadProvider>
   );
 }
