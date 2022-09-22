@@ -30,6 +30,8 @@ export default function ThreadModalView({ replies }: ThreadModalViewProps) {
 
 const styles = StyleSheet.create({
     container: {
+        flexShrink: 1,
+        width: '100%',
         backgroundColor: '#fff',
         paddingHorizontal: 4,
         paddingVertical: 4,

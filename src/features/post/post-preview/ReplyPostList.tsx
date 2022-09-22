@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     StyleSheet,
-    View,
     FlatList
 } from 'react-native';
 import { PostItem } from '..';
@@ -24,13 +23,19 @@ export default function ReplyPostList({ replies }: ReplyPostListProps) {
 
 
     return (
-        <View>
-            <FlatList
-                data={Array.from(replies)}
-                keyExtractor={keyExtractor}
-                renderItem={renderItem}
-                ItemSeparatorComponent={Separator}
-            />
-        </View>
+        <FlatList
+            contentContainerStyle={styles.container}
+            data={Array.from(replies)}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+            ItemSeparatorComponent={Separator}
+        />
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        justifyContent: 'center'
+    },
+});
