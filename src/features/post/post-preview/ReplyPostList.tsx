@@ -6,14 +6,16 @@ import {
 import { PostItem } from '..';
 import { ThreadContextInterface, useThreadContext } from '../../thread/ThreadContext';
 import { Separator } from '../../ui';
+import { useModalHistorySyncContext, ModalHistorySyncContextInterface } from '../../ui/modal/ModalHistorySyncContext';
 
 
-type ReplyPostListProps = {
-    replies: Set<number>;
-};
-
-export default function ReplyPostList({ replies }: ReplyPostListProps) {
+export default function ReplyPostList() {
     const { data: thread } = useThreadContext() as ThreadContextInterface;
+
+    const historyStack = useModalHistorySyncContext() as ModalHistorySyncContextInterface;
+    const replies = historyStack.peek() as Set<number>;
+    // console.log('Pushed to Stack:', replies);
+    // console.log('Current Stack Size:', historyStack.size());
 
     const renderItem = ({ item }: { item: number }) => (
         <PostItem item={thread.get(item)} catalog={false} />

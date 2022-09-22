@@ -7,6 +7,7 @@ import { AppStatusBar } from '../features/ui';
 import Thread from '../features/thread/Thread';
 import Modal from '../features/ui/modal/Modal';
 import { ModalVisibilityContextInterface, useModalVisibility } from '../features/ui/modal/ModalVisibilityContext';
+import { ModalHistorySyncProvider } from '../features/ui/modal/ModalHistorySyncContext';
 
 
 type ThreadScreenProps = {
@@ -20,9 +21,11 @@ export default function ThreadScreen({ navigation, route }: ThreadScreenProps) {
     return (
         <SafeAreaView style={styles.container}>
             <AppStatusBar />
-            <Thread board={'a'} />
-            {/* Single Modal instance per Screen  */}
-            <Modal ref={modalRef} />
+            <ModalHistorySyncProvider>
+                <Thread board={'a'} />
+                {/* Single Modal instance per Screen  */}
+                <Modal ref={modalRef} />
+            </ModalHistorySyncProvider>
         </SafeAreaView>
     )
 };

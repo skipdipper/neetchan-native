@@ -7,23 +7,37 @@ import { Separator } from '../ui';
 import ModalButton from '../ui/modal/ModalButton';
 import { ModalVisibilityContextInterface, useModalVisibility } from '../ui/modal/ModalVisibilityContext';
 import ReplyPostList from '../post/post-preview/ReplyPostList';
+import { useModalHistorySyncContext, ModalHistorySyncContextInterface } from '../ui/modal/ModalHistorySyncContext';
 
 
-type ThreadModalViewProps = {
-    replies: Set<number>;
-};
-
-export default function ThreadModalView({ replies }: ThreadModalViewProps) {
+export default function ThreadModalView() {
     const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
+    const historyStack = useModalHistorySyncContext() as ModalHistorySyncContextInterface;
+
 
     return (
         <View style={styles.container}>
             <View style={styles.actions}>
-                <ModalButton title='back' onPress={modalRef.current.closeModal} />
+                <ModalButton title='back' onPress={() => {
+                    historyStack.pop();
+                    if (!historyStack.isEmpty()) {
+                        modalRef.current.registerChild(
+                            <ThreadModalView />
+                        );
+                    } else {
+                        // console.log('Current Stack Size:', historyStack.size());
+                        modalRef.current.closeModal();
+                    }
+                }}
+                />
                 <Separator direction='vertical' />
-                <ModalButton title='close' onPress={modalRef.current.closeAllModals} />
+                <ModalButton title='close' onPress={() => {
+                    historyStack.clear();
+                    modalRef.current.closeAllModals();
+                }}
+                />
             </View>
-            <ReplyPostList replies={replies} />
+            <ReplyPostList />
         </View>
     );
 }

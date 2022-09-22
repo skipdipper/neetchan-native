@@ -6,6 +6,7 @@ import {
     Pressable,
 } from 'react-native';
 import ThreadModalView from '../../thread/ThreadModalView';
+import { ModalHistorySyncContextInterface, useModalHistorySyncContext } from '../../ui/modal/ModalHistorySyncContext';
 import { useModalVisibility, ModalVisibilityContextInterface } from '../../ui/modal/ModalVisibilityContext';
 
 
@@ -15,12 +16,19 @@ type SubjectProps = {
 
 export default function Replies({ replies }: SubjectProps) {
     const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
+    const historyStack = useModalHistorySyncContext() as ModalHistorySyncContextInterface;
 
     const handlePress = () => {
         console.log('Pressed on Repies');
 
+        historyStack.push(replies);
+        // The logs below work as expected because Modal History methods are Synchronous
+        // The logs would otherwise be STALE if Modal History methods are Asynchronous
+        // console.log('size', historyStack.size());
+        // console.log('peek', historyStack.peek());
+
         modalRef.current.registerChild(
-            <ThreadModalView replies={replies} />
+            <ThreadModalView />
         );
         modalRef.current.openModal();
     }
