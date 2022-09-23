@@ -4,6 +4,7 @@ import {
     Text,
     View,
 } from 'react-native';
+import { formatRelativeTime } from '../../../utils';
 
 
 type PostDetailsProps = {
@@ -13,20 +14,27 @@ type PostDetailsProps = {
     time: number,
 };
 
-// Thread id and time posted 
+/* Poster name, id, size, time */
 export default function PostDetails({ name, postID, now, time }: PostDetailsProps) {
+    const relativeTimeFormat = formatRelativeTime(time);
+
     return (
         <View style={styles.container}>
-            <Text style={{ marginRight: 1, fontSize: 12 }}>{name}</Text>
-            <Text style={{ marginRight: 1, fontSize: 12 }}>No. {postID}</Text>
-            <Text style={{ flexShrink: 1, fontSize: 12 }}>{now}</Text>
+            <Text style={styles.textContainer}>{name}</Text>
+            <Text style={styles.textContainer}>No. {postID}</Text>
+            <Text style={styles.textContainer}>{relativeTimeFormat}</Text>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignContent: 'flex-start'
+    },
+    textContainer: {
+        fontSize: 12,
+        marginRight: 2,
     }
 });
