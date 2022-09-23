@@ -1,7 +1,7 @@
 /*
- Formats unix timestamp (seconds) to relative time in days, hours, minutes or seconds
- Manually formated as Hermes has yet to support Intl.RelativeTimeFormat
- Alternatively use Moment.js or FormatJs
+    Formats unix timestamp (seconds) to relative time in days, hours, minutes or seconds
+    Manually formated as Hermes has yet to support Intl.RelativeTimeFormat
+    Alternatively use Moment.js or FormatJs
 */
 export function formatRelativeTime(seconds: number) {
     const now = Date.now();
@@ -50,12 +50,14 @@ function relativeTime(milliseconds: number) {
         return Math.floor(milliseconds / 1000);
     }
 
-    // Remove () and return functions instead for dynamic invocation
-    // All Properties are assigned at at object creation
+    /*
+        Getter instead of properties assigned to regular functions 
+        to avoid immediate method invocation at object creation
+    */
     return {
-        inDays: inDays(),
-        inHours: inHours(),
-        inMinutes: inMinutes(),
-        inSeconds: inSeconds(),
+        get inDays() { return inDays() },
+        get inHours() { return inHours() },
+        get inMinutes() { return inMinutes() },
+        get inSeconds() { return inSeconds() },
     }
 }
