@@ -1,9 +1,8 @@
 import React from 'react';
 import {
     StyleSheet,
-    Text,
-    View,
     Pressable,
+    Text,
 } from 'react-native';
 import ThreadModalView from '../../thread/ThreadModalView';
 import { ModalHistorySyncContextInterface, useModalHistorySyncContext } from '../../ui/modal/ModalHistorySyncContext';
@@ -27,9 +26,7 @@ export default function Replies({ replies }: SubjectProps) {
         // console.log('size', historyStack.size());
         // console.log('peek', historyStack.peek());
 
-        modalRef.current.registerChild(
-            <ThreadModalView />
-        );
+        modalRef.current.registerChild(<ThreadModalView />);
         modalRef.current.openModal();
     }
 

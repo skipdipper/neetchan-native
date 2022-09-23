@@ -14,27 +14,29 @@ export default function ThreadModalView() {
     const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
     const historyStack = useModalHistorySyncContext() as ModalHistorySyncContextInterface;
 
+    const handleBack = () => {
+        historyStack.pop();
+
+        if (!historyStack.isEmpty()) {
+            modalRef.current.registerChild(<ThreadModalView />);
+        } else {
+            console.log('Current Stack Size:', historyStack.size());
+            modalRef.current.closeModal();
+        }
+    }
+
+    const handleClose = () => {
+        historyStack.clear();
+        modalRef.current.closeAllModals();
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.actions}>
-                <ModalButton title='back' onPress={() => {
-                    historyStack.pop();
-                    if (!historyStack.isEmpty()) {
-                        modalRef.current.registerChild(
-                            <ThreadModalView />
-                        );
-                    } else {
-                        // console.log('Current Stack Size:', historyStack.size());
-                        modalRef.current.closeModal();
-                    }
-                }}
+                <ModalButton title='back' onPress={handleBack}
                 />
                 <Separator direction='vertical' />
-                <ModalButton title='close' onPress={() => {
-                    historyStack.clear();
-                    modalRef.current.closeAllModals();
-                }}
+                <ModalButton title='close' onPress={handleClose}
                 />
             </View>
             <ReplyPostList />
