@@ -5,13 +5,10 @@ import {
     Modal as ReactModal
 } from 'react-native';
 
-type ModalProps = {
-    children: React.ReactNode;
-};
 
 /*
 Single Modal accessed Imperatively using custom exposed Ref hook methods 
-Modal Context is set by using registerChild
+Modal Content is set by using registerChild
 Inspired by: https://github.com/Benjamiiiin/rn-reusable-modal
 */
 function Modal({ }, ref: React.Ref<any>) {
@@ -35,6 +32,10 @@ function Modal({ }, ref: React.Ref<any>) {
         setIsVisible(false);
     }, []);
 
+    const handleBackdrop = useCallback(() => {
+        closeModal();
+    }, []);
+
     // Public methods exposed by Ref
     useImperativeHandle(ref, () => {
         return {
@@ -54,10 +55,13 @@ function Modal({ }, ref: React.Ref<any>) {
         because absolute positioned children cannot overlay ancestor even with zIndex
         */
         <ReactModal transparent={true} visible={true} animationType='none'>
-            {/* MODAL BACKDROP */}
+            {/* 
+                MODAL BACKDROP
+                CAN BE OVERRIDEN BY CHILD THAT STACKS ON TOP
+            */}
             <Animated.View
                 style={styles.backdrop}
-                onTouchEnd={closeModal}
+                onTouchEnd={handleBackdrop}
             >
             </Animated.View>
 
