@@ -7,11 +7,13 @@ import {
 
 
 type GalleryHeaderBarProps = {
-    filename: string,
-    extension: string,
+    filename: string;
+    extension: string;
+    pageIndex?: number;
 };
 
-export default function GalleryHeaderBar({ filename, extension }: GalleryHeaderBarProps) {
+export default function GalleryHeaderBar({ filename, extension, pageIndex = 0 }: GalleryHeaderBarProps) {
+
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
@@ -25,7 +27,7 @@ export default function GalleryHeaderBar({ filename, extension }: GalleryHeaderB
                     {filename}{extension}
                 </Text>
                 <Text>
-                    1/1
+                    {pageIndex}/1
                 </Text>
             </View>
         </View>
