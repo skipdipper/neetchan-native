@@ -18,7 +18,7 @@ type CatalogListProps = {
     board: string,
 };
 
-export default function CatalogList({ board }: CatalogListProps) {
+function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
     const [isLoading, setLoading] = useState(true);
     const { data, setData } = useCatalogContext() as CatalogContextInterface;
     const [refreshing, setRefreshing] = useState(false);
@@ -70,6 +70,7 @@ export default function CatalogList({ board }: CatalogListProps) {
         <View style={styles.container}>
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
+                    ref={ref}
                     data={data}
                     keyExtractor={(item: OriginalPost) => String(item.no)}
                     refreshControl={
@@ -85,6 +86,8 @@ export default function CatalogList({ board }: CatalogListProps) {
         </View>
     )
 }
+
+export default React.forwardRef(CatalogList);
 
 const styles = StyleSheet.create({
     container: {

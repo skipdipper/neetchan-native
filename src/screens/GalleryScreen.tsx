@@ -7,7 +7,8 @@ import {
     useWindowDimensions,
     ViewabilityConfig,
     ViewToken,
-    ViewabilityConfigCallbackPairs
+    ViewabilityConfigCallbackPairs,
+    Pressable,
 } from 'react-native';
 import GalleryImage from '../features/gallery/GalleryImage';
 import GalleryVideo from '../features/gallery/GalleryVideo';
@@ -16,6 +17,7 @@ import { useThreadContext } from '../features/thread/ThreadContext';
 import { AppStatusBar } from '../features/ui';
 import PageView from '../features/ui/PageView';
 import GalleryHeaderBar from '../features/gallery/GalleryHeaderBar';
+import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/gallery/ScrollControllerContext';
 
 
 const fileUrl = (board: string, tim: number, ext: string) => `https://i.4cdn.org/${board}/${tim}${ext}`;
@@ -42,6 +44,11 @@ const getIndexOfGalleryItem = (data: Map<number, any> | Array<any>, tim: number)
     return values;
 }
 
+const getIndexOfFlatlistItem = (data: Map<number, any> | Array<any>, postId: number) => {
+    if (Array.isArray(data)) return data.findIndex(item => item.no === postId);
+    return Array.from(data.values()).findIndex(item => item.no === postId);
+}
+
 interface ViewableItems {
     viewableItems: Array<ViewToken>
     changed: Array<ViewToken>
@@ -53,6 +60,8 @@ type GalleryScreenProps = {
 };
 
 export default function GalleryScreen({ navigation, route }: GalleryScreenProps) {
+    const { scrollRef } = useScrollControllerContext() as ScrollControllerContextInterface;
+
     const { tim, catalog } = route.params;
     // Get screen width for setting PageView item width
     const { width } = useWindowDimensions();
@@ -73,17 +82,35 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
 
     const keyExtractor = useCallback((item: any) => String(item.no), []);
 
+    const scrollToIndex = (index: number) => {
+        console.log('Scrolling to index', index);
+        scrollRef?.current?.scrollToIndex({ animated: true, index: index, viewPosition: 0 });
+        if (!scrollRef.current) {
+            console.log('Not scrolling because scroll ref is null');
+        }
+    }
+
     const pageViewabilityConfig: ViewabilityConfig = useMemo(() => ({
         itemVisiblePercentThreshold: 50,
     }), []);
 
     const onPageChanged = useCallback(({ viewableItems, changed }: ViewableItems) => {
         const viewableItem = viewableItems.find(viewtoken => viewtoken.isViewable);
-        const pageIndex = (viewableItem?.index ?? -1) + 1;
-        const { filename, ext } = viewableItem?.item;
+        const pageIndex = viewableItem?.index ?? -1;
+        // TODO fix potentially undefined
+        const { filename, ext, no } = viewableItem?.item;
         navigation.setOptions({
-            headerTitle: () => <GalleryHeaderBar filename={filename} extension={ext} pageIndex={pageIndex} />
+            headerTitle: () => <GalleryHeaderBar filename={filename} extension={ext} pageIndex={pageIndex + 1} />
         });
+
+        // Not necessary to scroll to index on initial Flatlist render
+        if (pageIndex !== initialScrollIndex) {
+            // Only for CatalogList
+            // scrollToIndex(pageIndex);
+
+            const flatlistItemIndex = getIndexOfFlatlistItem(data, no);
+            scrollToIndex(flatlistItemIndex);
+        }
     }, []);
 
     // TODO: Fix Changing viewabilityConfigCallbackPairs on the fly is not supported
@@ -91,16 +118,22 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
         { viewabilityConfig: pageViewabilityConfig, onViewableItemsChanged: onPageChanged }
     ]), []);
 
+    const handlePress = useCallback(() => {
+        navigation.goBack();
+    }, []);
+
     // TODO: extract to Constants file
     const videoFormat = ['.webm', '.mp4', 'm4v', 'mpg', 'avi'];
 
     const renderItem = ({ item }: any) => (
-        <View style={[styles.item, { width: width }]}>
-            {videoFormat.includes(item.ext)
-                ? <GalleryVideo uri={fileUrl('a', item.tim, item.ext)} poster={thumbnailUrl('a', item.tim)} />
-                : <GalleryImage uri={fileUrl('a', item.tim, item.ext)} />
-            }
-        </View>
+        <Pressable onPress={handlePress}>
+            <View style={[styles.item, { width: width }]}>
+                {videoFormat.includes(item.ext)
+                    ? <GalleryVideo uri={fileUrl('a', item.tim, item.ext)} poster={thumbnailUrl('a', item.tim)} />
+                    : <GalleryImage uri={fileUrl('a', item.tim, item.ext)} />
+                }
+            </View>
+        </Pressable>
     );
 
     return (

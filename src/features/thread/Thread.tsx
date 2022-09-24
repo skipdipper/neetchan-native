@@ -19,7 +19,7 @@ type ThreadProps = {
     board: string,
 };
 
-export default function Thread({ board }: ThreadProps) {
+function Thread({ board }: ThreadProps, ref: React.Ref<FlatList>) {
     const route = useRoute<any>();
 
     const [isLoading, setLoading] = useState(true);
@@ -84,6 +84,7 @@ export default function Thread({ board }: ThreadProps) {
         <View style={styles.container}>
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
+                    ref={ref}
                     data={Array.from(data.values())}
                     keyExtractor={(item: any) => item.no}
                     refreshControl={
@@ -101,6 +102,7 @@ export default function Thread({ board }: ThreadProps) {
         </View>
     )
 }
+export default React.forwardRef(Thread);
 
 const styles = StyleSheet.create({
     container: {

@@ -8,6 +8,7 @@ import Thread from '../features/thread/Thread';
 import Modal from '../features/ui/modal/Modal';
 import { ModalVisibilityContextInterface, useModalVisibility } from '../features/ui/modal/ModalVisibilityContext';
 import { ModalHistorySyncProvider } from '../features/ui/modal/ModalHistorySyncContext';
+import { useScrollControllerContext, ScrollControllerContextInterface } from '../features/gallery/ScrollControllerContext';
 
 
 type ThreadScreenProps = {
@@ -17,12 +18,13 @@ type ThreadScreenProps = {
 
 export default function ThreadScreen({ navigation, route }: ThreadScreenProps) {
     const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
+    const { scrollRef } = useScrollControllerContext() as ScrollControllerContextInterface;
 
     return (
         <SafeAreaView style={styles.container}>
             <AppStatusBar />
             <ModalHistorySyncProvider>
-                <Thread board={'a'} />
+                <Thread ref={scrollRef} board={'a'} />
                 {/* Single Modal instance per Screen  */}
                 <Modal ref={modalRef} />
             </ModalHistorySyncProvider>

@@ -11,6 +11,7 @@ import { SearchActiveProvider } from './src/features/search/SearchActiveContext'
 import CatalogHeaderBar from './src/features/catalog/CatalogHeaderBar';
 import { ThreadProvider } from './src/features/thread/ThreadContext';
 import { ModalVisibilityProvider } from './src/features/ui/modal/ModalVisibilityContext';
+import { ScrollControllerProvider } from './src/features/gallery/ScrollControllerContext';
 
 // Nested Stack Navigator
 // Hack to Provide separate ThreadContext for different instances of ThreadScreen and GalleryScreen
@@ -106,7 +107,9 @@ const App = () => {
     <CatalogProvider>
       <SearchProvider>
         <SearchActiveProvider>
-          <AppNavigation />
+          <ScrollControllerProvider>
+            <AppNavigation />
+          </ScrollControllerProvider>
         </SearchActiveProvider>
       </SearchProvider>
     </CatalogProvider>
