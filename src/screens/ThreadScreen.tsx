@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
+    FlatList,
 } from 'react-native';
 import { AppStatusBar } from '../features/ui';
 import Thread from '../features/thread/Thread';
@@ -20,11 +21,33 @@ export default function ThreadScreen({ navigation, route }: ThreadScreenProps) {
     const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
     const { scrollRef } = useScrollControllerContext() as ScrollControllerContextInterface;
 
+    const prevScrollRef = useRef<FlatList | null>(null);
+
+    // callback ref for keeping track of prev ref and current ref
+    // for scroll controller to maintain reference of components between screen navigations
+    // that would otherwise cause scrollRef.current to be null on unmount of component referenced
+    // See: https://tkdodo.eu/blog/avoiding-use-effect-with-callback-refs
+    const threadRef = React.useCallback((node: FlatList) => {
+        if (node === null) { // ref component unmounted
+            // console.log('Thread flatlist unmounted');
+            // Restore scrollRef to previous component to be controlled again
+            scrollRef.current = prevScrollRef.current;
+
+        } else if (node !== null) { // ref component mounted
+            // console.log('Thread flatlist mounted');
+            // Store ref of previous component that was controlled
+            prevScrollRef.current = scrollRef.current;
+            // Reassign scrollRef to new component to be controlled
+            scrollRef.current = node;
+        }
+    }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             <AppStatusBar />
             <ModalHistorySyncProvider>
-                <Thread ref={scrollRef} board={'a'} />
+                {/* <Thread ref={scrollRef} board={'a'} /> */}
+                <Thread ref={threadRef} board={'a'} />
                 {/* Single Modal instance per Screen  */}
                 <Modal ref={modalRef} />
             </ModalHistorySyncProvider>

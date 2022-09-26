@@ -5,7 +5,7 @@ import { FlatList } from 'react-native';
 const ScrollControllerContext = createContext<ScrollControllerContextInterface | null>(null);
 
 export interface ScrollControllerContextInterface {
-    scrollRef: React.RefObject<FlatList>;
+    scrollRef: React.MutableRefObject<FlatList | null>;
 }
 
 export const useScrollControllerContext = () => useContext(ScrollControllerContext);
@@ -20,7 +20,7 @@ of React flatlist components CatalogList and Thread via the ref attribute
 */
 export function ScrollControllerProvider({ children }: ScrollContextProps) {
     // TODO: use callback ref instead for more granular control
-    const scrollRef = useRef<FlatList>(null);
+    const scrollRef = useRef<FlatList | null>(null);
 
     const value = useMemo(() => ({
         scrollRef,
