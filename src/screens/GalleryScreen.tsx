@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useRef, MutableRefObject } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -68,6 +68,10 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
     // TODO: Fix displaying incorrect item when screen rotates 
     // TODO: Fix App crashing when playing videos
 
+    // Ref object of key: video postId to value: GalleryVideo ref
+    const videoItemRefs: MutableRefObject<any> = useRef({});
+
+
     // Context maybe null if using default value
     const threadData = useThreadContext();
     const catalogData = useCatalogContext();
@@ -113,28 +117,79 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
         }
     }, []);
 
+    const videoItemViewabilityConfig: ViewabilityConfig = useMemo(() => ({
+        itemVisiblePercentThreshold: 80, // 100 does not register
+    }), []);
+
+    const onVideoItemChanged = useCallback(({ changed }: ViewableItems) => {
+        // Filter for changed items that are GalleryVideos
+        const changedVideoItems = changed.filter(viewtoken => videoFormat.includes(viewtoken.item?.ext));
+        // console.log('changedVideoItems:', changedVideoItems);
+
+        if (!changedVideoItems.length) return;
+        // console.log('videoItemRefs:', videoItemRefs);
+
+
+        changedVideoItems.forEach((viewtoken: ViewToken) => {
+            // key is derived from key extracted so same as postId (item.no)
+            const cell = videoItemRefs.current[viewtoken.key];
+
+            if (cell) { // not undefined
+                if (viewtoken.isViewable) {
+                    cell.play(); // video may not play if still buffering
+                } else {
+                    cell.stop();
+                }
+            }
+        })
+    }, []);
+
     // TODO: Fix Changing viewabilityConfigCallbackPairs on the fly is not supported
     const viewabilityConfigCallbackPairs: ViewabilityConfigCallbackPairs = useMemo(() => ([
-        { viewabilityConfig: pageViewabilityConfig, onViewableItemsChanged: onPageChanged }
+        { viewabilityConfig: pageViewabilityConfig, onViewableItemsChanged: onPageChanged },
+        { viewabilityConfig: videoItemViewabilityConfig, onViewableItemsChanged: onVideoItemChanged }
     ]), []);
 
     const handlePress = useCallback(() => {
-        navigation.goBack();
+        // navigation.goBack();
     }, []);
+
+
+    // Alternative to inline callback ref but requires passing postId to GalleryVideo
+    // for videoItemRefs to use as key 
+    // ref = {(videoItemRef) => {
+    //     console.log('VIDEO ITEM REF:', videoItemRef);
+    //     videoItemRefs.current[item.no] = videoItemRef;
+    // }}
+    const videoItemHandle = useCallback((videoItemHandle: any) => {
+        if (videoItemHandle === null) { // ref component unmounted
+            // TODO: delete property from videoItemRefs
+            // delete videoItemRefs.current[videoItemHandle!.postId];
+        } else if (videoItemHandle !== null) { // ref component mounted
+            videoItemRefs.current[videoItemHandle!.postId] = videoItemHandle;
+        }
+    }, []);
+
 
     // TODO: extract to Constants file
     const videoFormat = ['.webm', '.mp4', 'm4v', 'mpg', 'avi'];
 
-    const renderItem = ({ item }: any) => (
-        <Pressable onPress={handlePress}>
-            <View style={[styles.item, { width: width }]}>
-                {videoFormat.includes(item.ext)
-                    ? <GalleryVideo uri={fileUrl('a', item.tim, item.ext)} poster={thumbnailUrl('a', item.tim)} />
-                    : <GalleryImage uri={fileUrl('a', item.tim, item.ext)} />
-                }
-            </View>
-        </Pressable>
-    );
+    const renderItem = ({ item }: any) => {
+        const uri = fileUrl('a', item.tim, item.ext);
+        const poster = thumbnailUrl('a', item.tim);
+
+        return (
+            <Pressable onPress={handlePress}>
+                <View style={[styles.item, { width: width }]}>
+                    {videoFormat.includes(item.ext)
+                        ? <GalleryVideo ref={videoItemHandle} postId={item.no} uri={uri} poster={poster} />
+                        : <GalleryImage uri={uri} />
+                    }
+                </View>
+            </Pressable>
+        );
+    };
+
 
     return (
         <SafeAreaView style={styles.container}>

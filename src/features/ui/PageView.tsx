@@ -5,7 +5,7 @@ import {
     FlatList,
     ViewToken,
     ViewabilityConfig,
-    ViewabilityConfigCallbackPairs
+    ViewabilityConfigCallbackPairs,
 } from 'react-native';
 
 
@@ -26,6 +26,7 @@ type PageViewProps = {
     initialScrollIndex?: number;
     keyExtractor?: (item: any, index: number) => string;
     customViewabilityConfigCallbackPairs: ViewabilityConfigCallbackPairs;
+
 };
 
 export default function PageView({
@@ -34,7 +35,7 @@ export default function PageView({
     keyExtractor,
     getItemLayout,
     initialScrollIndex,
-    customViewabilityConfigCallbackPairs = []
+    customViewabilityConfigCallbackPairs = [],
 }: PageViewProps) {
     // TODO: Unmount video player onPageChange
     // TOD: Fix Image displaying Video controls
@@ -69,6 +70,12 @@ export default function PageView({
                 getItemLayout={getItemLayout}
                 initialScrollIndex={initialScrollIndex}
                 viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs}
+                // TODO: customizable FlatListProps instead 
+                windowSize={3}
+                initialNumToRender={3}
+                maxToRenderPerBatch={2}
+                updateCellsBatchingPeriod={50}
+                removeClippedSubviews={true}
             />
         </SafeAreaView>
     );
