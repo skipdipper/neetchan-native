@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import {
     FlatList,
     SafeAreaView,
@@ -11,6 +11,7 @@ import { SearchActiveContextInterface, useSearchActiveContext } from '../feature
 import SearchResult from '../features/search/SearchResult';
 import CatalogListItem from '../features/catalog/CatalogListItem';
 import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/gallery/ScrollControllerContext';
+import CatalogPopupMenuButton from '../features/catalog/CatalogPopupMenuButton';
 
 
 type CatalogScreenProps = {
@@ -30,6 +31,14 @@ export default function CatalogScreen({ navigation, route }: CatalogScreenProps)
             // console.log('scrollRef', scrollRef);
         }, [scrollRef.current])
     );
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <CatalogPopupMenuButton />
+            ),
+        });
+    }, [navigation]);
 
 
     console.log('CatalogScreen Render');

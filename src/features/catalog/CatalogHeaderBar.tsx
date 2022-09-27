@@ -19,7 +19,7 @@ export default function CatalogHeaderBar() {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: '95%',
         flexDirection: 'row',
     },
     titleContainer: {
