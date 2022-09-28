@@ -1,13 +1,14 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
 import { useScrollControllerContext, ScrollControllerContextInterface } from "../gallery/ScrollControllerContext";
 import { PopupMenuButton, PopupMenuItem } from "../ui/popupmenu";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 export default function CatalogPopupMenuButton() {
     const { scrollRef } = useScrollControllerContext() as ScrollControllerContextInterface;
 
     const scrollToTop = () => {
-        scrollRef.current?.scrollToIndex({ animated: false, index: 10, viewPosition: 0 });
+        scrollRef.current?.scrollToIndex({ animated: false, index: 0, viewPosition: 0 });
     }
 
     const scrollToBottom = () => {
@@ -15,7 +16,7 @@ export default function CatalogPopupMenuButton() {
         scrollRef.current?.scrollToEnd({ animated: false });
     }
 
-    const icon = <Text style={styles.icon}>{"\u22EE"}</Text>;
+    const icon = <Icon name="more-vert" size={30} color="#333" />;
 
 
     return (
@@ -32,11 +33,3 @@ export default function CatalogPopupMenuButton() {
         />
     );
 }
-
-const styles = StyleSheet.create({
-    icon: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        padding: 12,
-    }
-});

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { PopupMenu } from ".";
 
 
@@ -26,9 +27,23 @@ export default function PopupMenuButton({ icon, popupMenuEntry }: PopupMenuButto
 
     return (
         <>
-            <Pressable onPress={handlePress}>
+            <Pressable
+                onPress={handlePress}
+                android_ripple={{ color: '#dddddd' }}
+            >
                 <View style={styles.icon}>{icon}</View>
             </Pressable>
+
+            {/* <Icon.Button
+                name="more-vert"
+                size={30}
+                color="#333"
+                borderRadius={0}
+                backgroundColor='transparent'
+                underlayColor='#ddd'
+                iconStyle={{ marginRight: 0 }}
+                onPress={handlePress}
+            /> */}
 
             <PopupMenu
                 isVisible={isVisible}
