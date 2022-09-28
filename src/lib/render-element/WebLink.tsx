@@ -2,10 +2,10 @@ import React, { useCallback } from 'react';
 import {
     StyleSheet,
     Text,
-    Pressable,
     Linking,
     Alert
 } from 'react-native';
+import PressableHighlight from '../../features/ui/PressableHighlight';
 
 
 type WebLinkProps = {
@@ -25,12 +25,15 @@ export default function WebLink({ url }: WebLinkProps) {
     }, [url]);
 
     return (
-        <Pressable onPress={handlePress}>
-            <Text style={styles.weblink}>
+        <PressableHighlight onPress={handlePress}>
+            <Text
+                style={styles.weblink}
+            // dataDetectorType='link'
+            >
                 {url}
             </Text>
-        </Pressable>
-    )
+        </PressableHighlight>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -38,4 +41,4 @@ const styles = StyleSheet.create({
         color: 'orange',
         textDecorationLine: 'underline',
     },
-})
+});

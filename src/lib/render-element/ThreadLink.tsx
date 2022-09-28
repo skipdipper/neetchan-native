@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     StyleSheet,
     Text,
-    View,
-    Pressable,
 } from 'react-native';
+import PressableHighlight from '../../features/ui/PressableHighlight';
 
 
 type ThreadLinkProps = {
@@ -13,18 +12,18 @@ type ThreadLinkProps = {
 };
 
 export default function ThreadLink({ children, href }: ThreadLinkProps) {
-    const handleOnPress = () => {
+    const handlePress = () => {
         // TODO: navigate to linked Thread screen
         console.log(`Pressed on Threadlink ${href}`);
     }
 
     return (
-        <Pressable>
-            <Text style={styles.threadlink} onPress={handleOnPress}>
+        <PressableHighlight onPress={handlePress}>
+            <Text style={styles.threadlink}>
                 {children} {"\u2192"}
             </Text>
-        </Pressable>
-    )
+        </PressableHighlight>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -32,4 +31,4 @@ const styles = StyleSheet.create({
         color: 'orange',
         textDecorationLine: 'underline',
     },
-})
+});

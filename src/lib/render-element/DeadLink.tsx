@@ -2,8 +2,8 @@ import React from 'react';
 import {
     StyleSheet,
     Text,
-    Pressable,
 } from 'react-native';
+import PressableHighlight from '../../features/ui/PressableHighlight';
 
 
 type DeadLinkProps = {
@@ -11,17 +11,17 @@ type DeadLinkProps = {
 };
 
 export default function DeadLink({ children }: DeadLinkProps) {
-    const handleOnPress = () => {
+    const handlePress = () => {
         // TODO: navigate to archived WebView
         console.log(`Pressed on Deadlink`);
     }
 
     return (
-        <Pressable onPress={handleOnPress}>
+        <PressableHighlight onPress={handlePress}>
             <Text style={styles.deadlink}>
                 {children}
             </Text>
-        </Pressable>
+        </PressableHighlight>
     );
 }
 

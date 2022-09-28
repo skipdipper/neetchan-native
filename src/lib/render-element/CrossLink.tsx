@@ -2,8 +2,8 @@ import React from 'react';
 import {
     StyleSheet,
     Text,
-    Pressable,
 } from 'react-native';
+import PressableHighlight from '../../features/ui/PressableHighlight';
 
 
 type CrossLinkProps = {
@@ -12,17 +12,17 @@ type CrossLinkProps = {
 };
 
 export default function CrossLink({ children, href }: CrossLinkProps) {
-    const handleOnPress = () => {
+    const handlePress = () => {
         // TODO: navigate to linked Thread screen
         console.log(`Pressed on Crosslink ${href}`);
     }
 
     return (
-        <Pressable onPress={handleOnPress}>
+        <PressableHighlight onPress={handlePress}>
             <Text style={styles.crosslink} >
                 {children}
             </Text>
-        </Pressable>
+        </PressableHighlight>
     )
 }
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import {
     StyleSheet,
-    Pressable,
     Text
 } from 'react-native';
 import ThreadModalView from '../../features/thread/ThreadModalView';
 import { ModalHistorySyncContextInterface, useModalHistorySyncContext } from '../../features/ui/modal/ModalHistorySyncContext';
 import { ModalVisibilityContextInterface, useModalVisibility } from '../../features/ui/modal/ModalVisibilityContext';
+import PressableHighlight from '../../features/ui/PressableHighlight';
 
 
 type QuoteLinkProps = {
@@ -31,19 +31,11 @@ export default function QuoteLink({ children, href }: QuoteLinkProps) {
 
     return (
         // TODO: Fix Pressable vertical alignment with Text
-        <Pressable
-            onPress={handlePress}
-            style={({ pressed }) => [
-                {
-                    backgroundColor: pressed
-                        ? 'rgb(210, 230, 255)'
-                        : 'transparent'
-                },
-            ]}>
+        <PressableHighlight onPress={handlePress}>
             <Text style={styles.quotelink}>
                 {children}
             </Text>
-        </Pressable>
+        </PressableHighlight>
     );
 }
 
