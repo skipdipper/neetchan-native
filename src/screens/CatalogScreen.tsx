@@ -1,17 +1,15 @@
-import React, { useLayoutEffect, useRef } from 'react';
-import {
-    FlatList,
-    SafeAreaView,
-    StyleSheet,
-} from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { AppStatusBar } from '../features/ui';
+import React from 'react';
+import {
+    SafeAreaView,
+    StyleSheet
+} from 'react-native';
 import CatalogList from '../features/catalog/CatalogList';
-import { SearchActiveContextInterface, useSearchActiveContext } from '../features/search/SearchActiveContext';
-import SearchResult from '../features/search/SearchResult';
 import CatalogListItem from '../features/catalog/CatalogListItem';
 import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/gallery/ScrollControllerContext';
-import CatalogPopupMenuButton from '../features/catalog/CatalogPopupMenuButton';
+import { SearchActiveContextInterface, useSearchActiveContext } from '../features/search/SearchActiveContext';
+import SearchResult from '../features/search/SearchResult';
+import { AppStatusBar } from '../features/ui';
 
 
 type CatalogScreenProps = {
@@ -31,15 +29,6 @@ export default function CatalogScreen({ navigation, route }: CatalogScreenProps)
             // console.log('scrollRef', scrollRef);
         }, [scrollRef.current])
     );
-
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-                <CatalogPopupMenuButton />
-            ),
-        });
-    }, [navigation]);
-
 
     console.log('CatalogScreen Render');
     const renderItem = ({ item }: { item: any }) => (

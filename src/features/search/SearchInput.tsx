@@ -26,7 +26,8 @@ export default function SearchInput() {
             return item?.sub?.toUpperCase().includes(matchText) ||
                 item?.com?.toUpperCase().includes(matchText) ||
                 item?.name?.toUpperCase().includes(matchText) ||
-                item?.filename?.toUpperCase().includes(matchText)
+                item?.filename?.toUpperCase().includes(matchText) ||
+                item?.ext?.toUpperCase().includes(matchText)
         });
 
         setFilteredData(matches);
@@ -39,13 +40,8 @@ export default function SearchInput() {
                 onChangeText={handeChangeText}
                 value={searchText}
                 placeholder={'Search'}
+                autoFocus={true}
             />
-            <Text style={styles.text}>
-                {searchText
-                    ? <Text>Found {filteredData.length} posts for "{searchText}"</Text>
-                    : <Text>Search subjects, comments, names, and filenames</Text>
-                }
-            </Text>
         </View>
     );
 };
@@ -55,15 +51,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     input: {
-        height: 40,
         margin: 12,
         marginBottom: 0,
         borderWidth: 1,
         padding: 10,
     },
-    text: {
-        textAlignVertical: 'center',
-        textAlign: 'center',
-        padding: 8,
-    }
 });

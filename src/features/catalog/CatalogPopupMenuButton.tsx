@@ -16,7 +16,7 @@ export default function CatalogPopupMenuButton() {
         scrollRef.current?.scrollToEnd({ animated: false });
     }
 
-    const icon = <Icon name="more-vert" size={30} color="#333" />;
+    const icon = <Icon name="more-vert" size={24} color="#333" />;
 
 
     return (

@@ -56,6 +56,6 @@ export default function PopupMenuButton({ icon, popupMenuEntry }: PopupMenuButto
 
 const styles = StyleSheet.create({
     icon: {
-        flex: 1,
+        // flex: 1,
     }
 });

@@ -67,7 +67,7 @@ const App = () => {
             name="Catalog"
             component={CatalogScreen}
             options={{
-              headerTitle: () => (
+              header: () => (
                 <CatalogHeaderBar />
               )
             }}
