@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Text,
     View,
+    BackHandler,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SearchButton from '../search/SearchButton';
@@ -17,15 +18,37 @@ export default function CatalogHeaderBar() {
 
     const toggleSearchBarVisibility = () => setsearchbarVisible(prev => !prev);
 
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", backAction);
+
+        return () =>
+            BackHandler.removeEventListener("hardwareBackPress", backAction);
+    }, [searchbarVisible]); // Re-bind back handler to prevent Stale closures
+
+    const backAction = () => {
+        if (searchbarVisible) {
+            toggleSearchBarVisibility();
+            // TODO: invoke SearchInput handleCancel via ref
+            return true;
+        }
+
+        return false;
+    };
+
     const drawerButton = <Icon name='menu' size={24} color='#333' />;
     const refreshButton = <Icon name='refresh' size={24} color='#333' />;
 
-    const title = searchbarVisible
-        ? <SearchInput />
-        : <Text style={{ fontSize: 20, fontFamily: 'Rubik-Regular' }}>Catalog</Text>;
+    const title = <Text style={{ fontSize: 20, fontFamily: 'Rubik-Regular' }}>Catalog</Text>;
 
-    const bottom = searchbarVisible ? <SearchHint /> : <></>;
-
+    if (searchbarVisible) {
+        return (
+            <AppBar
+                title={<SearchInput onCancel={toggleSearchBarVisibility} />}
+                titleStyle={{ marginLeft: 0 }}
+                bottom={<SearchHint />}
+            />
+        );
+    }
 
     return (
         <AppBar
@@ -36,7 +59,6 @@ export default function CatalogHeaderBar() {
                 refreshButton,
                 <CatalogPopupMenuButton />
             ]}
-            bottom={bottom}
         />
     );
 }

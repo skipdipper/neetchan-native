@@ -1,14 +1,15 @@
 import React from 'react';
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 type AppBarProps = {
     leading?: React.ReactNode;
     title?: React.ReactNode;
+    titleStyle?: ViewStyle;
     actions?: React.ReactNode[];
     bottom?: React.ReactNode;
 };
 
-export default function AppBar({ leading, title, actions, bottom }: AppBarProps) {
+export default function AppBar({ leading, title, titleStyle, actions, bottom }: AppBarProps) {
 
     return (
         <View style={styles.appbar}>
@@ -17,7 +18,7 @@ export default function AppBar({ leading, title, actions, bottom }: AppBarProps)
                     {leading}
                 </View>
 
-                <View style={styles.title}>
+                <View style={[styles.title, titleStyle]}>
                     {title}
                 </View>
 
