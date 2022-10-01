@@ -13,9 +13,16 @@ type CommentProps = {
 };
 
 export default function Comment({ comment, catalog }: CommentProps) {
+
+    if (catalog) {
+        return (
+            <Text numberOfLines={10} ellipsizeMode='tail'>
+                <RenderHtml html={comment} />
+            </Text>
+        );
+    }
+
     return (
-        <View>
-            <RenderHtml html={comment} />
-        </View>
-    )
+        <RenderHtml html={comment} />
+    );
 }

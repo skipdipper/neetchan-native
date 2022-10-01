@@ -26,7 +26,10 @@ export default function PostItem({ item, catalog = false }: PostItemProps) {
                 }
             </View>
 
-            <View style={styles.textContext}>
+            <View
+                style={styles.textContent}
+                pointerEvents={catalog ? 'none' : 'auto'}
+            >
                 {item?.sub && <Subject subject={item.sub} />}
 
                 <PostDetails
@@ -59,7 +62,7 @@ export default function PostItem({ item, catalog = false }: PostItemProps) {
                 }
             </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
     thumbnailContainer: {
         marginRight: 8,
     },
-    textContext: {
+    textContent: {
         flexDirection: 'column',
         flex: 1,
         justifyContent: 'flex-start',
