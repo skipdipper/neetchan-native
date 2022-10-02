@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         alignContent: 'flex-start'
     },
     textContainer: {
-        fontSize: 12,
+        fontSize: 10,
         marginRight: 2,
     }
 });

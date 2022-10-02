@@ -21,7 +21,7 @@ export default function FileDetails({ filename, extension, fileSize, width, heig
 
     return (
         <View style={styles.container}>
-            <Text style={styles.textContainer}>{filename}{extension}</Text>
+            <Text style={[styles.textContainer, styles.underline]}>{filename}{extension}</Text>
             <Text style={styles.textContainer}>{sizeFormat}</Text>
             <Text style={styles.textContainer}>({width}x{height})</Text>
         </View>
@@ -35,7 +35,10 @@ const styles = StyleSheet.create({
         alignContent: 'flex-start'
     },
     textContainer: {
-        fontSize: 12,
+        fontSize: 10,
         marginRight: 2,
+    },
+    underline: {
+        textDecorationLine: 'underline'
     }
 });

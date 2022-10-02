@@ -14,8 +14,16 @@ export default function PopupMenu({ isVisible, closeMenu, popupMenuEntry }: Popu
         closeMenu();
     };
 
+    const handleRequestClose = () => {
+        closeMenu();
+    }
+
     return (
-        <Modal transparent={true} visible={isVisible}>
+        <Modal
+            transparent={true}
+            visible={isVisible}
+            onRequestClose={handleRequestClose}
+        >
             <Animated.View
                 style={styles.backdrop}
                 onTouchEnd={handleBackdrop}
@@ -45,7 +53,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         height: '100%',
-        backgroundColor: 'rgba(54, 54, 54, 0.6)',
     },
     container: {
         position: 'absolute',
@@ -53,6 +60,6 @@ const styles = StyleSheet.create({
         margin: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'orange',
+        backgroundColor: '#fff',
     },
 });
