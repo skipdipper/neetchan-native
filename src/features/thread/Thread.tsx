@@ -10,10 +10,8 @@ import { useRoute } from '@react-navigation/native';
 import { PostItem } from '../post';
 import { Separator } from '../ui';
 import { useThreadContext, ThreadContextInterface } from './ThreadContext';
-import { getQuoteIds } from '../../lib/getQuoteIds';
+import Repository from '../../data/repository/Repository';
 
-
-const threadUrl = (board: string, no: number) => `https://a.4cdn.org/${board}/thread/${no}.json`;
 
 type ThreadProps = {
     board: string,
@@ -40,33 +38,7 @@ function Thread({ board }: ThreadProps, ref: React.Ref<FlatList>) {
 
     const getThread = async () => {
         try {
-            const response = await fetch(threadUrl(board, threadId));
-            const json = await response.json();
-
-            const thread = new Map<number, any>(
-                json.posts.map((post: any) => {
-                    //  TODO: add prop replies: Set<postId>
-                    return [post.no, { ...post }];
-                })
-            );
-
-            // Populate Post Reply Ids for each post
-            json.posts.forEach((post: any) => {
-                const comment: string | undefined = post.com;
-                if (!comment) return;
-
-                const postIds = getQuoteIds(comment);
-                postIds.forEach(postId => {
-                    if (!thread.has(postId)) return;
-
-                    if (thread.get(postId).postReplies) {
-                        thread.get(postId).postReplies.add(post.no);
-                    } else {
-                        thread.get(postId).postReplies = new Set([post.no]);
-                    }
-                });
-            });
-
+            const thread = await Repository.getThread(board, threadId);
             setData(thread);
         } catch (error) {
             console.error(error);

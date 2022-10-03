@@ -10,9 +10,8 @@ import { Separator } from '../ui';
 import { CatalogPage, OriginalPost } from '../../types/catalog';
 import { CatalogContextInterface, useCatalogContext } from './CatalogContext';
 import CatalogListItem from './CatalogListItem';
+import Repository from '../../data/repository/Repository';
 
-
-const catalogUrl = (board: string) => `https://a.4cdn.org/${board}/catalog.json`;
 
 type CatalogListProps = {
     board: string,
@@ -34,13 +33,7 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
     const getCatalog = async () => {
         console.log('Fetching Catalog from API');
         try {
-            const response = await fetch(catalogUrl(board));
-            const json = await response.json();
-
-            const threads = json
-                .map((page: CatalogPage) => page.threads)
-                .flat();
-
+            const threads = await Repository.getCatalog(board);
             setData(threads);
         } catch (error) {
             console.error(error);
@@ -66,13 +59,16 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
         <CatalogListItem item={item} />
     );
 
+    const keyExtractor = (item: OriginalPost) => String(item.no);
+
+
     return (
         <View style={styles.container}>
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
                     ref={ref}
                     data={data}
-                    keyExtractor={(item: OriginalPost) => String(item.no)}
+                    keyExtractor={keyExtractor}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
