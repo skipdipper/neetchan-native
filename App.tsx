@@ -12,6 +12,7 @@ import CatalogHeaderBar from './src/features/catalog/CatalogHeaderBar';
 import { ThreadProvider } from './src/features/thread/ThreadContext';
 import { ModalVisibilityProvider } from './src/features/ui/modal/ModalVisibilityContext';
 import { ScrollControllerProvider } from './src/features/gallery/ScrollControllerContext';
+import ThreadHeaderBar from './src/features/thread/ThreadHeaderBar';
 
 // Nested Stack Navigator
 // Hack to Provide separate ThreadContext for different instances of ThreadScreen and GalleryScreen
@@ -27,7 +28,9 @@ const ThreadStackScreen = () => {
             name="NestedThread"
             component={ThreadScreen}
             options={({ route }: { route: any }) => ({
-              title: String(route.params.no)
+              header: () => (
+                <ThreadHeaderBar />
+              )
             })}
           />
 
