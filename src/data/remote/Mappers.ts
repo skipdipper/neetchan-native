@@ -1,4 +1,5 @@
-import { Attachment, CatalogPost, OriginalPost, ReplyPost } from "../../shared/types";
+import { Attachment, Board, CatalogPost, Cooldown, OriginalPost, ReplyPost } from "../../shared/types";
+import { BoardDto, CooldownDto } from "./dto/BoardsDto";
 import { CatalogPostDto } from "./dto/CatalogDto";
 import { AttachmentDto, OriginalPostDto, ReplyPostDto } from "./dto/ThreadDto";
 
@@ -88,4 +89,56 @@ export const threadPostFromDto = (threadPostDto: OriginalPostDto | ReplyPostDto)
         return originalPostFromDto(threadPostDto as OriginalPostDto);
     }
     return replyPostFromDto(threadPostDto as ReplyPostDto);
+}
+
+const cooldownFromDto = (cooldownDto: CooldownDto): Cooldown => {
+    return Object.freeze({
+        threads: cooldownDto.threads,
+        replies: cooldownDto.replies,
+        images: cooldownDto.images,
+    } as const);
+}
+
+export const boardFromDto = (boardDto: BoardDto): Board => {
+    const cooldowns = cooldownFromDto(boardDto.cooldowns);
+
+    const optional = Object.entries({
+        spoilers: Boolean(boardDto.spoilers),
+        customSpoilers: boardDto.custom_spoilers,
+        isArchived: Boolean(boardDto.is_archived),
+        boardFlags: boardDto.board_flags,
+        countryFlags: Boolean(boardDto.country_flags),
+        userIds: Boolean(boardDto.user_ids),
+        oekaki: Boolean(boardDto.oekaki),
+        sjisTags: Boolean(boardDto.sjis_tags),
+        codeTags: Boolean(boardDto.code_tags),
+        mathTags: Boolean(boardDto.math_tags),
+        textOnly: Boolean(boardDto.text_only),
+        forcedAnon: Boolean(boardDto.forced_anon),
+        webmAudio: Boolean(boardDto.webm_audio),
+        requireSubject: Boolean(boardDto.require_subject),
+        minImageWidth: boardDto.min_image_width,
+        minImageHeight: boardDto.min_image_height,
+    }).reduce((setting, [key, value]) => {
+        return value
+            ? { ...setting, [key]: value }
+            : { ...setting }
+    }, {});
+
+    return Object.freeze({
+        board: boardDto.board,
+        title: boardDto.title,
+        worksafeBoard: Boolean(boardDto.ws_board),
+        threadsPerPage: boardDto.per_page,
+        pages: boardDto.pages,
+        maxFilesize: boardDto.max_filesize,
+        maxWebmFilesize: boardDto.max_webm_filesize,
+        maxCommentChars: boardDto.max_comment_chars,
+        maxWebmDuration: boardDto.max_webm_duration,
+        bumpLimit: boardDto.bump_limit,
+        imageLimit: boardDto.image_limit,
+        cooldowns: cooldowns,
+        metaDescription: boardDto.meta_description,
+        ...optional,
+    } as const);
 }

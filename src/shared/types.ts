@@ -1,4 +1,4 @@
-// Contains interface for domain objects corresponding to Thread and Catalog DTO
+// Interfaces for domain objects corresponding to Thread, Catalog and Board DTO
 
 export interface Thread {
     page: number;
@@ -69,4 +69,46 @@ export interface CatalogPage extends CatalogPost {
 
 export interface Catalog extends CatalogPost {
     data: CatalogPage[];
+}
+
+export interface Board {
+    board: string;
+    title: string;
+    worksafeBoard: boolean;
+    threadsPerPage: number;
+    pages: number;
+    maxFilesize: number;
+    maxWebmFilesize: number;
+    maxCommentChars: number;
+    maxWebmDuration: number;
+    bumpLimit: number;
+    imageLimit: number;
+    cooldowns: Cooldown;
+    metaDescription: string;
+    spoilers?: boolean;
+    customSpoilers?: number;
+    isArchived?: boolean;
+    boardFlags?: BoardFlagDictionary;
+    countryFlags?: boolean;
+    userIds?: boolean;
+    oekaki?: boolean;
+    sjisTags?: boolean;
+    codeTags?: boolean;
+    mathTags?: boolean;
+    textOnly?: boolean;
+    forcedAnon?: boolean;
+    webmAudio?: boolean;
+    requireSubject?: boolean;
+    minImageWidth?: number;
+    minImageHeight?: number;
+}
+
+export interface Cooldown {
+    threads: number;
+    replies: number;
+    images: number;
+}
+
+export interface BoardFlagDictionary {
+    [index: string]: string;
 }
