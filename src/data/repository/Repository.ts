@@ -1,3 +1,5 @@
+import { Board } from "../../shared/types";
+import BoardDao from "../local/dao/BoardDao";
 import BoardService from "../remote/services/BoardService";
 import CatalogService from "../remote/services/CatalogService";
 import ThreadService from "../remote/services/ThreadService";
@@ -14,9 +16,15 @@ class Repository implements IRepository<any>{
         return thread;
     }
 
-    async getBoardList() {
-        const boards = await BoardService.getBoard();
-        return boards;
+    async getBoardList(): Promise<Board[]> {
+        const localBoards = BoardDao.getAllBoards();
+        if (localBoards && localBoards.length > 0) {
+            return localBoards;
+        } else {
+            const boards = await BoardService.getBoard();
+            BoardDao.initBoards(boards);
+            return boards;
+        }
     }
 }
 

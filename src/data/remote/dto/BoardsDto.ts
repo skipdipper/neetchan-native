@@ -35,9 +35,9 @@ export interface BoardDto {
 }
 
 export interface CooldownDto {
-    threads: 600;
-    replies: 60;
-    images: 30;
+    threads: number;
+    replies: number;
+    images: number;
 }
 
 export interface BoardFlagDictionaryDto {
