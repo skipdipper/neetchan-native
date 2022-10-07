@@ -23,10 +23,23 @@ class ThreadService {
                 json.posts.map(post => {
                     //  TODO: add prop replies: Set<postId>
                     return [post.no, { ...post }];
-                    // TODO: map dto to domain object
-                    // return [post.no, threadPostFromDto(post)];
                 })
             );
+
+            // TODO: Uncomment and map dto to domain object
+            // const thread = new Map<number, any>(
+            //     json.posts.map(post => {
+            //         return [
+            //             post.no,
+            //             Object.defineProperty(post, "board", {
+            //                 value: board,
+            //                 writable: false,
+            //                 configurable: true,
+            //                 enumerable: true,
+            //             })
+            //         ]
+            //     })
+            // );
 
             // Populate Post Reply Ids for each post
             json.posts.forEach(post => {

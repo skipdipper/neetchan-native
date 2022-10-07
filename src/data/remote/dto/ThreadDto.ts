@@ -3,21 +3,22 @@ export interface ThreadDto {
 }
 
 export interface AttachmentDto {
-    tim?: number;
-    filename?: string;
-    ext?: string;
-    fsize?: number;
-    md5?: string;
-    w?: number;
-    h?: number;
-    tn_w?: number;
-    tn_h?: number;
-    filedeleted?: 1;
-    spoiler?: 1;
-    custom_spoiler?: 1;
+    tim: number;
+    filename: string;
+    ext: string;
+    fsize: number;
+    md5: string;
+    w: number;
+    h: number;
+    tn_w: number;
+    tn_h: number;
+    filedeleted: 1;
+    spoiler: 1;
+    custom_spoiler: 1;
 }
 
-export interface ReplyPostDto extends AttachmentDto {
+export interface ReplyPostDto extends Partial<AttachmentDto> {
+    board: string; // manually defined from url
     no: number;
     resto: number;
     now: string;

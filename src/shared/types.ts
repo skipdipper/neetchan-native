@@ -6,21 +6,22 @@ export interface Thread {
 }
 
 export interface Attachment {
-    tim?: number;
-    filename?: string;
-    extention?: string;
-    filesize?: number;
-    md5?: string;
-    width?: number;
-    height?: number;
-    thumbnailWidth?: number;
-    thumbnailHeight?: number;
-    filedeleted?: boolean;
-    spoiler?: boolean;
-    customSpoiler?: boolean;
+    tim: number;
+    filename: string;
+    extention: string;
+    filesize: number;
+    md5: string;
+    width: number;
+    height: number;
+    thumbnailWidth: number;
+    thumbnailHeight: number;
+    filedeleted: boolean;
+    spoiler: boolean;
+    customSpoiler: boolean;
 }
 
-export interface ReplyPost extends Attachment {
+export interface ReplyPost extends Partial<Attachment> {
+    board: string;
     postId: number;
     threadId: number;
     now: string;

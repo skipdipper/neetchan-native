@@ -3,8 +3,10 @@ import { BoardDto, CooldownDto } from "./dto/BoardsDto";
 import { CatalogPostDto } from "./dto/CatalogDto";
 import { AttachmentDto, OriginalPostDto, ReplyPostDto } from "./dto/ThreadDto";
 
+const thumbnailUrl = (board: string, tim: number) => `https://i.4cdn.org/${board}/${tim}s.jpg`;
+const fileUrl = (board: string, tim: number, ext: string) => `https://i.4cdn.org/${board}/${tim}${ext}`;
 
-export const attachmentFromDto = (attachmentDto: AttachmentDto): Attachment => {
+export const attachmentFromDto = (attachmentDto: AttachmentDto, board: string): Attachment => {
     return Object.freeze({
         tim: attachmentDto.tim,
         filename: attachmentDto.filename,
@@ -18,13 +20,19 @@ export const attachmentFromDto = (attachmentDto: AttachmentDto): Attachment => {
         filedeleted: Boolean(attachmentDto.filedeleted),
         spoiler: Boolean(attachmentDto.spoiler),
         customSpoiler: Boolean(attachmentDto.custom_spoiler),
+        thumbnailUrl: thumbnailUrl(board, attachmentDto.tim),
+        fileUrl: fileUrl(board, attachmentDto.tim, attachmentDto.ext),
     } as const);
 };
 
 export const replyPostFromDto = (replyPostDto: ReplyPostDto): ReplyPost => {
-    const attachment = attachmentFromDto({ ...replyPostDto });
+    const attachment = replyPostDto.tim
+        ? attachmentFromDto({ ...replyPostDto } as AttachmentDto, replyPostDto.board)
+        : {};
+
 
     return Object.freeze({
+        board: replyPostDto.board,
         ...attachment,
         postId: replyPostDto.no,
         threadId: replyPostDto.resto,

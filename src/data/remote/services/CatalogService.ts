@@ -22,7 +22,14 @@ class CatalogService {
                 .map((page: CatalogPageDto) => page.threads)
                 .flat();
 
-            const catalogPosts: CatalogPost[] = threads.map(item => catalogPostFromDto(item));
+            const catalogPosts: CatalogPost[] = threads.map(item => catalogPostFromDto(
+                Object.defineProperty(item, "board", {
+                    value: board,
+                    writable: false,
+                    configurable: true,
+                    enumerable: true,
+                }))
+            );
             // console.log(catalogPosts[0]);
 
             // return catalogPosts;
