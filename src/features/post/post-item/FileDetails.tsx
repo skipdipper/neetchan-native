@@ -9,19 +9,19 @@ import { formatBytes } from '../../../utils';
 
 type FileDetailsProps = {
     filename: string,
-    extension: string,
+    fileExtension: string,
     fileSize: number,
     width: number,
     height: number
 };
 
 /* File name, extension, size, dimensions */
-export default function FileDetails({ filename, extension, fileSize, width, height }: FileDetailsProps) {
+export default function FileDetails({ filename, fileExtension, fileSize, width, height }: FileDetailsProps) {
     const sizeFormat = formatBytes(fileSize, 1);
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.textContainer, styles.underline]}>{filename}{extension}</Text>
+            <Text style={[styles.textContainer, styles.underline]}>{filename}{fileExtension}</Text>
             <Text style={styles.textContainer}>{sizeFormat}</Text>
             <Text style={styles.textContainer}>({width}x{height})</Text>
         </View>

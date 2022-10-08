@@ -30,10 +30,9 @@ class CatalogService {
                     enumerable: true,
                 }))
             );
-            // console.log(catalogPosts[0]);
 
-            // return catalogPosts;
-            return threads;
+            return catalogPosts;
+            // return threads;
 
         } catch (error: any) {
             console.log(error);

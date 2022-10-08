@@ -10,7 +10,7 @@ export const attachmentFromDto = (attachmentDto: AttachmentDto, board: string): 
     return Object.freeze({
         tim: attachmentDto.tim,
         filename: attachmentDto.filename,
-        extention: attachmentDto.ext,
+        fileExtension: attachmentDto.ext,
         filesize: attachmentDto.fsize,
         md5: attachmentDto.md5,
         width: attachmentDto.w,
@@ -20,8 +20,8 @@ export const attachmentFromDto = (attachmentDto: AttachmentDto, board: string): 
         filedeleted: Boolean(attachmentDto.filedeleted),
         spoiler: Boolean(attachmentDto.spoiler),
         customSpoiler: Boolean(attachmentDto.custom_spoiler),
-        thumbnailUrl: thumbnailUrl(board, attachmentDto.tim),
-        fileUrl: fileUrl(board, attachmentDto.tim, attachmentDto.ext),
+        get thumbnailUrl() { return thumbnailUrl(board, attachmentDto.tim) },
+        get fileUrl() { return fileUrl(board, attachmentDto.tim, attachmentDto.ext) },
     } as const);
 };
 
@@ -30,6 +30,7 @@ export const replyPostFromDto = (replyPostDto: ReplyPostDto): ReplyPost => {
         ? attachmentFromDto({ ...replyPostDto } as AttachmentDto, replyPostDto.board)
         : {};
 
+    let postReplies: undefined | Set<number>;
 
     return Object.freeze({
         board: replyPostDto.board,
@@ -49,6 +50,14 @@ export const replyPostFromDto = (replyPostDto: ReplyPostDto): ReplyPost => {
         comment: replyPostDto.com,
         since4pass: replyPostDto.since4pass,
         mobileImage: Boolean(replyPostDto.m_img),
+        get postReplies() { return postReplies },
+        // set postReplies(postId: number) {
+        //     if (postReplies) {
+        //         postReplies.add(postId);
+        //     } else {
+        //         postReplies = new Set([postId]);
+        //     }
+        // }
     } as const);
 };
 

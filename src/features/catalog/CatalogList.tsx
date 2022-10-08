@@ -1,16 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-    StyleSheet,
-    View,
-    FlatList,
-    ActivityIndicator,
-    RefreshControl,
+    ActivityIndicator, FlatList, RefreshControl, StyleSheet,
+    View
 } from 'react-native';
+import Repository from '../../data/repository/Repository';
+import { CatalogPost } from '../../shared/types';
 import { Separator } from '../ui';
-import { CatalogPage, OriginalPost } from '../../types/catalog';
 import { CatalogContextInterface, useCatalogContext } from './CatalogContext';
 import CatalogListItem from './CatalogListItem';
-import Repository from '../../data/repository/Repository';
 
 
 type CatalogListProps = {
@@ -55,11 +52,11 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
         getCatalog();
     }, []);
 
-    const renderItem = ({ item }: { item: OriginalPost }) => (
+    const renderItem = ({ item }: { item: CatalogPost }) => (
         <CatalogListItem item={item} />
     );
 
-    const keyExtractor = (item: OriginalPost) => String(item.no);
+    const keyExtractor = (item: CatalogPost) => String(item.postId);
 
 
     return (

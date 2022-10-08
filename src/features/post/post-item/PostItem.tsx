@@ -8,7 +8,7 @@ import { Spacer } from '../../ui';
 
 
 type PostItemProps = {
-    item: any,
+    item: any; // OriginalPost & ReplyPost,
     catalog: boolean,
 };
 
@@ -18,9 +18,10 @@ export default function PostItem({ item, catalog = false }: PostItemProps) {
             <View style={styles.thumbnailContainer}>
                 {item?.tim &&
                     <Thumbnail
+                        uri={item.thumbnailUrl!}
                         tim={item.tim}
-                        filename={item.filename}
-                        extension={item.ext}
+                        filename={item.filename!}
+                        fileExtension={item.fileExtension!}
                         catalog={catalog}
                     />
                 }
@@ -30,27 +31,26 @@ export default function PostItem({ item, catalog = false }: PostItemProps) {
                 style={styles.textContent}
                 pointerEvents={catalog ? 'none' : 'auto'}
             >
-                {item?.sub && <Subject subject={item.sub} />}
+                {item?.subject && <Subject subject={item.subject} />}
 
                 <PostDetails
                     name={item.name}
-                    postID={item.no}
-                    now={item.now}
+                    postID={item.postId}
                     time={item.time}
                 />
 
                 {item?.tim &&
                     <FileDetails
-                        filename={item.filename}
-                        extension={item.ext}
-                        fileSize={item.fsize}
-                        width={item.w}
-                        height={item.h}
+                        filename={item.filename!}
+                        fileExtension={item.fileExtension!}
+                        fileSize={item.filesize!}
+                        width={item.width!}
+                        height={item.height!}
                     />
                 }
 
-                {item?.com &&
-                    <Comment comment={item?.com} catalog={catalog} />
+                {item?.comment &&
+                    <Comment comment={item.comment} catalog={catalog} />
                 }
 
                 {/* Alternative to Wrapping Replies inside a View 

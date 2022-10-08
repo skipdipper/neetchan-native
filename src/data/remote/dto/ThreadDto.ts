@@ -22,7 +22,7 @@ export interface ReplyPostDto extends Partial<AttachmentDto> {
     no: number;
     resto: number;
     now: string;
-    time: string;
+    time: number;
     name: string;
     trip?: string;
     id?: string;

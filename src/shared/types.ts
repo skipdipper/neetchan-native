@@ -8,7 +8,7 @@ export interface Thread {
 export interface Attachment {
     tim: number;
     filename: string;
-    extention: string;
+    fileExtension: string;
     filesize: number;
     md5: string;
     width: number;
@@ -18,6 +18,8 @@ export interface Attachment {
     filedeleted: boolean;
     spoiler: boolean;
     customSpoiler: boolean;
+    thumbnailUrl: string;
+    fileUrl: string;
 }
 
 export interface ReplyPost extends Partial<Attachment> {
@@ -25,7 +27,7 @@ export interface ReplyPost extends Partial<Attachment> {
     postId: number;
     threadId: number;
     now: string;
-    time: string;
+    time: number;
     name: string;
     trip?: string;
     posterId?: string;
@@ -37,6 +39,7 @@ export interface ReplyPost extends Partial<Attachment> {
     comment?: string;
     since4pass?: number;
     mobileImage?: boolean;
+    postReplies?: Set<number>;
 }
 
 export interface OriginalPost extends ReplyPost {

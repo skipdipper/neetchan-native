@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { PostItem } from '../post';
-import { OriginalPost } from '../../types/catalog';
+import { CatalogPost } from '../../shared/types';
 
 
 type CatalogListItemProps = {
-    item: OriginalPost,
+    item: CatalogPost,
 };
 
 export default function CatalogListItem({ item }: CatalogListItemProps) {
@@ -20,9 +20,12 @@ export default function CatalogListItem({ item }: CatalogListItemProps) {
     return (
         <View style={styles.container}>
             <Pressable android_ripple={{ color: '#dddddd' }} onPress={() => {
-                console.log(`Pressed on thread ${item.no}`);
+                console.log(`Pressed on thread ${item.postId}`);
+
+
                 // Navigating to NestedThread inside nested navigator
-                navigation.navigate('Thread', { screen: 'NestedThread', params: { no: item.no } });
+                navigation.navigate('Thread', { screen: 'NestedThread', params: { threadId: item.postId } });
+
 
             }}>
                 <PostItem item={item} catalog={true} />

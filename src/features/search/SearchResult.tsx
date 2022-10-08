@@ -15,13 +15,15 @@ type CatalogListProps = {
 
 export default function SearchResult({ renderItem }: CatalogListProps) {
     const { filteredData } = useSearchContext() as SearchContextInterface;
+    const keyExtractor = (item: any) => String(item.postId);;
+
     console.log('SearchResult Render');
     return (
         <View style={styles.container}>
             {/* TODO: Add RefreshControl */}
             <FlatList
                 data={filteredData}
-                keyExtractor={(item: OriginalPost | any) => String(item.no)}
+                keyExtractor={keyExtractor}
                 renderItem={renderItem}
                 ItemSeparatorComponent={Separator}
             />

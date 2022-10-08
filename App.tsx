@@ -43,7 +43,7 @@ const ThreadStackScreen = () => {
                 headerTitle: () => (
                   <GalleryHeaderBar
                     filename={route.params.filename}
-                    extension={route.params.extension}
+                    fileExtension={route.params.fileExtension}
                   />
                 ),
 
@@ -95,7 +95,7 @@ const App = () => {
               headerTitle: () => (
                 <GalleryHeaderBar
                   filename={route.params.filename}
-                  extension={route.params.extension}
+                  fileExtension={route.params.fileExtension}
                 />
               ),
             })}

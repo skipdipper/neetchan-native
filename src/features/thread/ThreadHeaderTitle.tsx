@@ -11,13 +11,13 @@ interface ThreadHeaderTitleProps extends TextProps {
 
 function ThreadHeaderTitle({ title, color, ...textprops }: ThreadHeaderTitleProps) {
     const route = useRoute<any>();
-    const { no } = route.params;
+    const { threadId } = route.params;
 
     // TODO: fix re-render when navigation to gallery modal
     const { data: thread } = useThreadContext() as ThreadContextInterface;
-    const { sub, com } = thread.get(no) || {};
+    const { subject, comment } = thread.get(threadId) || {};
     // subject or comment may be stll be undefined if fetching thread
-    const headerTitle = sub ?? com ?? '';
+    const headerTitle = subject ?? comment ?? '';
 
 
     return (

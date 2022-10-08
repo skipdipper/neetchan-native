@@ -10,12 +10,11 @@ import { formatRelativeTime } from '../../../utils';
 type PostDetailsProps = {
     name: string,
     postID: number,
-    now: number,
     time: number,
 };
 
 /* Poster name, id, size, time */
-export default function PostDetails({ name, postID, now, time }: PostDetailsProps) {
+export default function PostDetails({ name, postID, time }: PostDetailsProps) {
     const relativeTimeFormat = formatRelativeTime(time);
 
     return (

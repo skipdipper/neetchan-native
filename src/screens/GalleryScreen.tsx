@@ -20,33 +20,30 @@ import GalleryHeaderBar from '../features/gallery/GalleryHeaderBar';
 import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/gallery/ScrollControllerContext';
 
 
-const fileUrl = (board: string, tim: number, ext: string) => `https://i.4cdn.org/${board}/${tim}${ext}`;
-const thumbnailUrl = (board: string, tim: number) => `https://i.4cdn.org/${board}/${tim}s.jpg`;
-
 const getGalleryItems = (data: Map<number, any> | Array<any>) => {
     if (Array.isArray(data)) {
-        return data.filter(item => item.hasOwnProperty('ext'));
+        return data.filter(item => item.hasOwnProperty('fileExtension'));
     }
     const values = Array.from(data.values())
-        .filter(item => item.hasOwnProperty('ext'));
+        .filter(item => item.hasOwnProperty('fileExtension'));
     return values;
 }
 
 const getIndexOfGalleryItem = (data: Map<number, any> | Array<any>, tim: number) => {
     if (Array.isArray(data)) {
-        return data.filter(item => item.hasOwnProperty('ext'))
+        return data.filter(item => item.hasOwnProperty('fileExtension'))
             .findIndex(item => item.tim === tim);
     }
 
     const values = Array.from(data.values())
-        .filter(item => item.hasOwnProperty('ext'))
+        .filter(item => item.hasOwnProperty('fileExtension'))
         .findIndex(item => item.tim === tim);
     return values;
 }
 
 const getIndexOfFlatlistItem = (data: Map<number, any> | Array<any>, postId: number) => {
-    if (Array.isArray(data)) return data.findIndex(item => item.no === postId);
-    return Array.from(data.values()).findIndex(item => item.no === postId);
+    if (Array.isArray(data)) return data.findIndex(item => item.postId === postId);
+    return Array.from(data.values()).findIndex(item => item.postId === postId);
 }
 
 interface ViewableItems {
@@ -84,7 +81,9 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
         { length: width, offset: width * index, index: index }
     ), [width]);
 
-    const keyExtractor = useCallback((item: any) => String(item.no), []);
+    // const keyExtractor = useCallback((item: any) => String(item.postId), []);
+    const keyExtractor = useCallback((item: any) => String(item.postId), []);
+
 
     const scrollToIndex = (index: number) => {
         console.log('Scrolling to index', index);
@@ -102,9 +101,9 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
         const viewableItem = viewableItems.find(viewtoken => viewtoken.isViewable);
         const pageIndex = viewableItem?.index ?? -1;
         // TODO fix potentially undefined
-        const { filename, ext, no } = viewableItem?.item;
+        const { filename, fileExtension, postId } = viewableItem?.item;
         navigation.setOptions({
-            headerTitle: () => <GalleryHeaderBar filename={filename} extension={ext} pageIndex={pageIndex + 1} />
+            headerTitle: () => <GalleryHeaderBar filename={filename} fileExtension={fileExtension} pageIndex={pageIndex + 1} />
         });
 
         // Not necessary to scroll to index on initial Flatlist render
@@ -112,7 +111,7 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
             // Only for CatalogList
             // scrollToIndex(pageIndex);
 
-            const flatlistItemIndex = getIndexOfFlatlistItem(data, no);
+            const flatlistItemIndex = getIndexOfFlatlistItem(data, postId);
             scrollToIndex(flatlistItemIndex);
         }
     }, []);
@@ -123,7 +122,7 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
 
     const onVideoItemChanged = useCallback(({ changed }: ViewableItems) => {
         // Filter for changed items that are GalleryVideos
-        const changedVideoItems = changed.filter(viewtoken => videoFormat.includes(viewtoken.item?.ext));
+        const changedVideoItems = changed.filter(viewtoken => videoFormat.includes(viewtoken.item?.fileExtension));
         // console.log('changedVideoItems:', changedVideoItems);
 
         if (!changedVideoItems.length) return;
@@ -131,7 +130,7 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
 
 
         changedVideoItems.forEach((viewtoken: ViewToken) => {
-            // key is derived from key extracted so same as postId (item.no)
+            // key is derived from key extracted so same as postId (item.postId)
             const cell = videoItemRefs.current[viewtoken.key];
 
             if (cell) { // not undefined
@@ -159,7 +158,7 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
     // for videoItemRefs to use as key 
     // ref = {(videoItemRef) => {
     //     console.log('VIDEO ITEM REF:', videoItemRef);
-    //     videoItemRefs.current[item.no] = videoItemRef;
+    //     videoItemRefs.current[item.postId] = videoItemRef;
     // }}
     const videoItemHandle = useCallback((videoItemHandle: any) => {
         if (videoItemHandle === null) { // ref component unmounted
@@ -175,15 +174,12 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
     const videoFormat = ['.webm', '.mp4', 'm4v', 'mpg', 'avi'];
 
     const renderItem = ({ item }: any) => {
-        const uri = fileUrl('a', item.tim, item.ext);
-        const poster = thumbnailUrl('a', item.tim);
-
         return (
             <Pressable onPress={handlePress}>
                 <View style={[styles.item, { width: width }]}>
-                    {videoFormat.includes(item.ext)
-                        ? <GalleryVideo ref={videoItemHandle} postId={item.no} uri={uri} poster={poster} />
-                        : <GalleryImage uri={uri} />
+                    {videoFormat.includes(item.fileExtension)
+                        ? <GalleryVideo ref={videoItemHandle} postId={item.postId} uri={item.fileUrl} poster={item.thumbnailUrl} />
+                        : <GalleryImage uri={item.fileUrl} />
                     }
                 </View>
             </Pressable>

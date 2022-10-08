@@ -34,7 +34,7 @@ function Thread({ board }: ThreadProps, ref: React.Ref<FlatList>) {
 
     }, []);
 
-    const { no: threadId } = route.params;
+    const { threadId } = route.params;
 
     const getThread = async () => {
         try {
@@ -52,13 +52,16 @@ function Thread({ board }: ThreadProps, ref: React.Ref<FlatList>) {
     }, []);
 
 
+    const keyExtractor = (item: any) => String(item.postId);;
+
+
     return (
         <View style={styles.container}>
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
                     ref={ref}
                     data={Array.from(data.values())}
-                    keyExtractor={(item: any) => item.no}
+                    keyExtractor={keyExtractor}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}

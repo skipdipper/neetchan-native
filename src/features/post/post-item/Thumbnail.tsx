@@ -9,30 +9,29 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 
-const thumbnailUrl = (board: string, tim: number) => `https://i.4cdn.org/${board}/${tim}s.jpg`;
-
 type ThumbnailProps = {
+    uri: string;
     tim: number,
     filename: string,
-    extension: string,
+    fileExtension: string,
     catalog: boolean,
 };
 
-export default function Thumbnail({ tim, filename, extension, catalog }: ThumbnailProps) {
+export default function Thumbnail({ uri, tim, filename, fileExtension, catalog }: ThumbnailProps) {
     const [isLoading, setIsLoading] = useState(true);
     const navigation = useNavigation<any>();
 
     return (
         <View style={styles.container}>
             <Pressable onPress={() => {
-                console.log(`Pressed on Thumbnail ${tim}${extension}`);
-                navigation.navigate('Gallery', { tim: tim, filename: filename, extension: extension, catalog: catalog });
+                console.log(`Pressed on Thumbnail ${tim}${fileExtension}`);
+                navigation.navigate('Gallery', { tim: tim, filename: filename, fileExtension: fileExtension, catalog: catalog });
             }}
             >
                 <Image
                     style={styles.dimensions}
                     source={{
-                        uri: thumbnailUrl('a', tim),
+                        uri: uri
                     }}
                     onLoadEnd={() => setIsLoading(false)}
                 />

@@ -8,11 +8,11 @@ import {
 
 type GalleryHeaderBarProps = {
     filename: string;
-    extension: string;
+    fileExtension: string;
     pageIndex?: number;
 };
 
-export default function GalleryHeaderBar({ filename, extension, pageIndex = 0 }: GalleryHeaderBarProps) {
+export default function GalleryHeaderBar({ filename, fileExtension, pageIndex = 0 }: GalleryHeaderBarProps) {
 
     return (
         <View style={styles.container}>
@@ -24,7 +24,7 @@ export default function GalleryHeaderBar({ filename, extension, pageIndex = 0 }:
                     selectable={true}
                     selectionColor='orange'
                 >
-                    {filename}{extension}
+                    {filename}{fileExtension}
                 </Text>
                 <Text>
                     {pageIndex}/1
