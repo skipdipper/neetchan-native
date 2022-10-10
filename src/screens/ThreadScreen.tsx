@@ -1,15 +1,14 @@
 import React, { useRef } from 'react';
 import {
-    SafeAreaView,
-    StyleSheet,
-    FlatList,
+    FlatList, SafeAreaView,
+    StyleSheet
 } from 'react-native';
-import { AppStatusBar } from '../features/ui';
+import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/gallery/ScrollControllerContext';
 import Thread from '../features/thread/Thread';
+import { AppStatusBar } from '../features/ui';
 import Modal from '../features/ui/modal/Modal';
-import { ModalVisibilityContextInterface, useModalVisibility } from '../features/ui/modal/ModalVisibilityContext';
 import { ModalHistorySyncProvider } from '../features/ui/modal/ModalHistorySyncContext';
-import { useScrollControllerContext, ScrollControllerContextInterface } from '../features/gallery/ScrollControllerContext';
+import { ModalVisibilityContextInterface, useModalVisibility } from '../features/ui/modal/ModalVisibilityContext';
 
 
 type ThreadScreenProps = {
@@ -47,7 +46,7 @@ export default function ThreadScreen({ navigation, route }: ThreadScreenProps) {
             <AppStatusBar />
             <ModalHistorySyncProvider>
                 {/* <Thread ref={scrollRef} board={'a'} /> */}
-                <Thread ref={threadRef} board={'a'} />
+                <Thread ref={threadRef} />
                 {/* Single Modal instance per Screen  */}
                 <Modal ref={modalRef} />
             </ModalHistorySyncProvider>

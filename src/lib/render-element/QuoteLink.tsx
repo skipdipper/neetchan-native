@@ -15,7 +15,8 @@ type QuoteLinkProps = {
 };
 
 export default function QuoteLink({ children, href }: QuoteLinkProps) {
-    const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
+    // TODO: Fix Render Error cannot read property 'modalRef ' of null
+    const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface || {};
     const historyStack = useModalHistorySyncContext() as ModalHistorySyncContextInterface;
 
     const postId = parseInt(href.slice(2));

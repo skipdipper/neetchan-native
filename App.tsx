@@ -71,7 +71,8 @@ const App = () => {
             component={CatalogScreen}
             options={{
               header: () => (
-                <CatalogHeaderBar />
+                // TODO: Fix board undefined
+                <CatalogHeaderBar board='a' />
               )
             }}
           />

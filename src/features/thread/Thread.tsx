@@ -13,11 +13,7 @@ import { useThreadContext, ThreadContextInterface } from './ThreadContext';
 import Repository from '../../data/repository/Repository';
 
 
-type ThreadProps = {
-    board: string,
-};
-
-function Thread({ board }: ThreadProps, ref: React.Ref<FlatList>) {
+function Thread({ }, ref: React.Ref<FlatList>) {
     const route = useRoute<any>();
 
     const [isLoading, setLoading] = useState(true);
@@ -34,7 +30,7 @@ function Thread({ board }: ThreadProps, ref: React.Ref<FlatList>) {
 
     }, []);
 
-    const { threadId } = route.params;
+    const { board, threadId } = route.params;
 
     const getThread = async () => {
         try {

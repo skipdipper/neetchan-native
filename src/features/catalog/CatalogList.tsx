@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     ActivityIndicator, FlatList, RefreshControl, StyleSheet,
     View
@@ -18,6 +18,7 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
     const [isLoading, setLoading] = useState(true);
     const { data, setData } = useCatalogContext() as CatalogContextInterface;
     const [refreshing, setRefreshing] = useState(false);
+    const initRender = useRef(true);
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -30,6 +31,7 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
     const getCatalog = async () => {
         console.log('Fetching Catalog from API');
         try {
+            setLoading(true);
             const threads = await Repository.getCatalog(board);
             setData(threads);
         } catch (error) {
@@ -51,6 +53,17 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
         }
         getCatalog();
     }, []);
+
+    // Refetch Catalog when board changes, does not run onMount
+    // TODO: Use custom hook for storing previous value of board
+    useEffect(() => {
+        if (initRender.current) {
+            initRender.current = false;
+            return;
+        }
+
+        getCatalog();
+    }, [board]);
 
     const renderItem = ({ item }: { item: CatalogPost }) => (
         <CatalogListItem item={item} />
