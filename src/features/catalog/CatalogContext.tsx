@@ -1,9 +1,10 @@
 import { useState, useContext, createContext } from 'react';
+import { CatalogPost } from '../../shared/types';
 
 
 export interface CatalogContextInterface {
-    data: Array<any>;
-    setData: (data: Array<any>) => void;
+    data: CatalogPost[];
+    setData: (data: CatalogPost[]) => void;
 }
 
 const CatalogContext = createContext<CatalogContextInterface | null>(null);

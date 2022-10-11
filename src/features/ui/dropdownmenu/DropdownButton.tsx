@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ListRenderItem, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import DropdownMenu from "./DropdownMenu";
 import DropdownMenuItem from "./DropdownMenuItem";
@@ -8,7 +8,7 @@ type DropdownButtonProps = {
     items: any[] | undefined;
     value: any;
     onChanged?: (value: any) => void;
-    menuItem?: ListRenderItem<any> | null;
+    menuItem?: (item: any) => React.ReactElement | null;
 }
 
 export default function DropdownButton({ items, value, menuItem, onChanged }: DropdownButtonProps) {
@@ -27,6 +27,8 @@ export default function DropdownButton({ items, value, menuItem, onChanged }: Dr
         onChanged?.(value);
     }
 
+    const currentItem = menuItem?.({ item: currentValue });
+
 
     return (
         <>
@@ -40,9 +42,8 @@ export default function DropdownButton({ items, value, menuItem, onChanged }: Dr
                     style={styles.currentMenuItem}
                 >
                     <DropdownMenuItem
-                        // TODO: remove hardcoded props
-                        value={currentValue.board}
-                        child={<Text>{`/${currentValue.board}/ - ${currentValue.title}`}</Text>}
+                        value={null}
+                        child={currentItem}
                     />
                     <Icon name='arrow-drop-down' size={24} color='#333' />
                 </View>

@@ -29,13 +29,13 @@ export default function SearchInput({ onCancel, onClear }: SearchInputProps) {
         setSearchActive(true);
         console.log('filtering...');
         // TODO: filter OP latest replies
-        const matches: Array<any> = data.filter((item: any) => {
+        const matches = data.filter(item => {
             const matchText = changedText.toUpperCase();
-            return item?.sub?.toUpperCase().includes(matchText) ||
-                item?.com?.toUpperCase().includes(matchText) ||
+            return item?.subject?.toUpperCase().includes(matchText) ||
+                item?.comment?.toUpperCase().includes(matchText) ||
                 item?.name?.toUpperCase().includes(matchText) ||
                 item?.filename?.toUpperCase().includes(matchText) ||
-                item?.ext?.toUpperCase().includes(matchText)
+                item?.fileExtension?.toUpperCase().includes(matchText)
         });
 
         setFilteredData(matches);

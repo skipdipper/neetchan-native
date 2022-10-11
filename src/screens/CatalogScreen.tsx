@@ -31,7 +31,7 @@ export default function CatalogScreen({ navigation, route }: CatalogScreenProps)
                 <CatalogHeaderBar board={board} setBoard={setBoard} />
             )
         });
-    }, [navigation]);
+    }, [navigation, board]); // board dependency required when toggling search
 
     // TODO: reattach scrollRef after navigating back from ThreadScreen
     useFocusEffect(
