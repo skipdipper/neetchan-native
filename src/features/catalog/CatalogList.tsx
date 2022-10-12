@@ -25,7 +25,7 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
         getCatalog();
         setRefreshing(false);
         console.log('useCallBack for CatalogList ran');
-    }, []);
+    }, [board]);
     console.log('CatalogList Render');
 
     const getCatalog = async () => {
@@ -45,6 +45,7 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
         console.log('useEffect for CatalogList ran');
         // console.log('Number of OPs:', data.length);
 
+        // TODO: fix search not working after changing boards
         // Use stale Data after canceling Search Filtering 
         if (data?.length) {
             // console.log('NOT fetching Catalog from API');
@@ -102,4 +103,3 @@ const styles = StyleSheet.create({
         paddingHorizontal: 4,
     },
 });
-

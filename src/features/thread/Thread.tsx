@@ -5,12 +5,14 @@ import {
     FlatList,
     ActivityIndicator,
     RefreshControl,
+    ListRenderItem,
 } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { PostItem } from '../post';
 import { Separator } from '../ui';
 import { useThreadContext, ThreadContextInterface } from './ThreadContext';
 import Repository from '../../data/repository/Repository';
+import ThreadStats from './ThreadStats';
 
 
 function Thread({ }, ref: React.Ref<FlatList>) {
@@ -19,7 +21,7 @@ function Thread({ }, ref: React.Ref<FlatList>) {
     const [isLoading, setLoading] = useState(true);
 
     // Type assert data, setData is not null
-    const { data, setData } = useThreadContext() as ThreadContextInterface;
+    const { data: thread, setData } = useThreadContext() as ThreadContextInterface;
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -47,6 +49,25 @@ function Thread({ }, ref: React.Ref<FlatList>) {
         getThread();
     }, []);
 
+    const data = Array.from(thread.values());
+
+    const renderItem: ListRenderItem<any> = ({ item }) => (
+        <PostItem item={item} catalog={false} />
+    );
+
+
+    const listFooterComponent = () => {
+        const { replies, images, uniqueIps, archived } = data[0] || {};
+        return (
+            <ThreadStats
+                replies={replies}
+                images={images}
+                uniqueIps={uniqueIps}
+                page={0}
+                archived={archived}
+            />
+        );
+    }
 
     const keyExtractor = (item: any) => String(item.postId);;
 
@@ -56,7 +77,7 @@ function Thread({ }, ref: React.Ref<FlatList>) {
             {isLoading ? <ActivityIndicator /> : (
                 <FlatList
                     ref={ref}
-                    data={Array.from(data.values())}
+                    data={data}
                     keyExtractor={keyExtractor}
                     refreshControl={
                         <RefreshControl
@@ -64,10 +85,10 @@ function Thread({ }, ref: React.Ref<FlatList>) {
                             onRefresh={onRefresh}
                         />
                     }
-                    renderItem={({ item }) => (
-                        <PostItem item={item} catalog={false} />
-                    )}
+                    renderItem={renderItem}
                     ItemSeparatorComponent={Separator}
+                    ListFooterComponent={listFooterComponent}
+                    ListFooterComponentStyle={styles.listFooterComponentStyle}
                 />
             )}
         </View>
@@ -81,4 +102,10 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         paddingHorizontal: 4,
     },
-})
+    listFooterComponentStyle: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 24
+    }
+});

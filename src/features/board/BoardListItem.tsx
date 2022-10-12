@@ -19,7 +19,7 @@ export default function BoardListItem({ board, title, onPress }: BoardListItemPr
             onPress={handlePress}
         >
             <View style={styles.container}>
-                <Text>
+                <Text style={styles.text}>
                     {`/${board}/ - ${title}`}
                 </Text>
             </View>
@@ -31,5 +31,10 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         padding: 8
+    },
+    text: {
+        fontFamily: 'Rubik-Regular',
+        fontWeight: 'bold',
+        textAlignVertical: 'center'
     },
 });

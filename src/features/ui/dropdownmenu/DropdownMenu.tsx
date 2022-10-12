@@ -51,6 +51,7 @@ export default function DropdownMenu({ data, visible, menuItem, onClose, setValu
                         data={data}
                         // keyExtractor={keyExtractor}
                         renderItem={renderItem}
+                        windowSize={2}
                     />
                 </View>
             </Modal>
