@@ -1,8 +1,9 @@
+import { useRoute } from '@react-navigation/native';
 import React from 'react';
 import {
     StyleSheet,
     Text,
-    View,
+    View
 } from 'react-native';
 
 
@@ -13,6 +14,8 @@ type GalleryHeaderBarProps = {
 };
 
 export default function GalleryHeaderBar({ filename, fileExtension, pageIndex = 0 }: GalleryHeaderBarProps) {
+    const route = useRoute<any>();
+    const { images } = route.params;
 
     return (
         <View style={styles.container}>
@@ -27,7 +30,7 @@ export default function GalleryHeaderBar({ filename, fileExtension, pageIndex = 
                     {filename}{fileExtension}
                 </Text>
                 <Text>
-                    {pageIndex}/1
+                    {pageIndex}/{images}
                 </Text>
             </View>
         </View>

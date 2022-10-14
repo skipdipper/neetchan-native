@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo, useRef, MutableRefObject } from 'react';
+import React, { useCallback, useState, useMemo, useRef, MutableRefObject, useEffect } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -80,6 +80,12 @@ export default function GalleryScreen({ navigation, route }: GalleryScreenProps)
     const getItemLayout = useCallback((data: any[] | null | undefined, index: number) => (
         { length: width, offset: width * index, index: index }
     ), [width]);
+
+    useEffect(() => {
+        navigation.setParams({
+            images: galleryItems.length,
+        });
+    }, [navigation]);
 
     // const keyExtractor = useCallback((item: any) => String(item.postId), []);
     const keyExtractor = useCallback((item: any) => String(item.postId), []);
