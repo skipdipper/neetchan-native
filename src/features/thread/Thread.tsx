@@ -7,16 +7,20 @@ import {
     RefreshControl,
     ListRenderItem,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { PostItem } from '../post';
 import { Separator } from '../ui';
 import { useThreadContext, ThreadContextInterface } from './ThreadContext';
 import Repository from '../../data/repository/Repository';
 import ThreadStats from './ThreadStats';
+import { useModalHistorySyncContext, ModalHistorySyncContextInterface } from '../ui/modal/ModalHistorySyncContext';
+import { useModalVisibility, ModalVisibilityContextInterface } from '../ui/modal/ModalVisibilityContext';
 
 
 function Thread({ }, ref: React.Ref<FlatList>) {
     const route = useRoute<any>();
+    const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
+    const historyStack = useModalHistorySyncContext() as ModalHistorySyncContextInterface;
 
     const [isLoading, setLoading] = useState(true);
 
@@ -49,12 +53,22 @@ function Thread({ }, ref: React.Ref<FlatList>) {
         getThread();
     }, []);
 
+    // Close and reopen Modal when navigating to and from Gallery screen
+    useFocusEffect(
+        useCallback(() => {
+            if (!historyStack.isEmpty()) {
+                modalRef.current.openModal();
+            }
+
+            return () => modalRef.current.closeModal();
+        }, [])
+    );
+
     const data = Array.from(thread.values());
 
     const renderItem: ListRenderItem<any> = ({ item }) => (
         <PostItem item={item} catalog={false} />
     );
-
 
     const listFooterComponent = () => {
         const { replies, images, uniqueIps, archived } = data[0] || {};
@@ -69,7 +83,7 @@ function Thread({ }, ref: React.Ref<FlatList>) {
         );
     }
 
-    const keyExtractor = (item: any) => String(item.postId);;
+    const keyExtractor = (item: any) => String(item.postId);
 
 
     return (
@@ -92,7 +106,7 @@ function Thread({ }, ref: React.Ref<FlatList>) {
                 />
             )}
         </View>
-    )
+    );
 }
 export default React.forwardRef(Thread);
 
