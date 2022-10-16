@@ -1,9 +1,9 @@
 import React from 'react';
 import {
     StyleSheet,
-    Text,
-    View,
+    Text
 } from 'react-native';
+import RenderHtml from '../../../lib/RenderHtml';
 
 
 type SubjectProps = {
@@ -12,8 +12,15 @@ type SubjectProps = {
 
 export default function Subject({ subject }: SubjectProps) {
     return (
-        <View>
-            <Text>{subject}</Text>
-        </View>
-    )
+        <Text style={styles.subject}>
+            <RenderHtml html={subject} />
+        </Text>
+    );
 }
+
+const styles = StyleSheet.create({
+    subject: {
+        color: '#0f0c5d',
+        fontWeight: '300',
+    },
+});

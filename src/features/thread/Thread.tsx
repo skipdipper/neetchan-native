@@ -60,7 +60,8 @@ function Thread({ }, ref: React.Ref<FlatList>) {
                 modalRef.current.openModal();
             }
 
-            return () => modalRef.current.closeModal();
+            // modalRef will be null on unmount
+            return () => modalRef.current?.closeModal();
         }, [])
     );
 
