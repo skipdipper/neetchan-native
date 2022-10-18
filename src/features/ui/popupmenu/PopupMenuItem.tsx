@@ -1,19 +1,25 @@
+import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 
 
 type PopupMenuItemProps = {
-    child: React.ReactNode;
+    child: NonNullable<React.ReactNode>;
     action?: () => void;
 };
 
 export default function PopupMenuItem({ child, action }: PopupMenuItemProps) {
 
     const handlePress = () => {
-        if (action) {
-            action();
-        }
+        action?.();
     }
 
+    if (!child) {
+        return null;
+    }
+
+    if (!React.isValidElement(child)) {
+        child = <Text style={styles.text}>{child}</Text>
+    }
 
     return (
         <Pressable
@@ -21,7 +27,7 @@ export default function PopupMenuItem({ child, action }: PopupMenuItemProps) {
             onPress={handlePress}
             android_ripple={{ color: '#dddddd' }}
         >
-            <Text style={styles.text}>{child}</Text>
+            {child}
         </Pressable>
     );
 }
