@@ -112,7 +112,9 @@ const App = () => {
       <SearchProvider>
         <SearchActiveProvider>
           <ScrollControllerProvider>
-            <AppNavigation />
+            <ModalVisibilityProvider>
+              <AppNavigation />
+            </ModalVisibilityProvider>
           </ScrollControllerProvider>
         </SearchActiveProvider>
       </SearchProvider>

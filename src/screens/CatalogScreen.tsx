@@ -1,9 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import {
-    SafeAreaView,
-    StyleSheet
-} from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import CatalogHeaderBar from '../features/catalog/CatalogHeaderBar';
 import CatalogList from '../features/catalog/CatalogList';
 import CatalogListItem from '../features/catalog/CatalogListItem';
@@ -11,6 +8,8 @@ import { ScrollControllerContextInterface, useScrollControllerContext } from '..
 import { SearchActiveContextInterface, useSearchActiveContext } from '../features/search/SearchActiveContext';
 import SearchResult from '../features/search/SearchResult';
 import { AppStatusBar } from '../features/ui';
+import Modal from '../features/ui/modal/Modal';
+import { ModalVisibilityContextInterface, useModalVisibility } from '../features/ui/modal/ModalVisibilityContext';
 
 
 type CatalogScreenProps = {
@@ -22,6 +21,8 @@ export default function CatalogScreen({ navigation, route }: CatalogScreenProps)
     // TODO: React.Memo to prevent re-rendering from subscription to Context
     const { searchActive } = useSearchActiveContext() as SearchActiveContextInterface;
     const { scrollRef } = useScrollControllerContext() as ScrollControllerContextInterface;
+    const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
+
 
     const [board, setBoard] = useState('a');
 
@@ -53,6 +54,7 @@ export default function CatalogScreen({ navigation, route }: CatalogScreenProps)
                 ? <SearchResult renderItem={renderItem} />
                 : <CatalogList ref={scrollRef} board={board} />
             }
+            <Modal ref={modalRef} transparent={true} />
         </SafeAreaView>
     );
 };

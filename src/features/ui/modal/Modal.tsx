@@ -11,7 +11,11 @@ Single Modal accessed Imperatively using custom exposed Ref hook methods
 Modal Content is set by using registerChild
 Inspired by: https://github.com/Benjamiiiin/rn-reusable-modal
 */
-function Modal({ }, ref: React.Ref<any>) {
+type ModalProps = {
+    transparent?: boolean;
+}
+
+function Modal({ transparent }: ModalProps, ref: React.Ref<any>) {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [child, setChild] = useState<React.ReactNode>(null);
     // TODO: Add Modal History Stack
@@ -53,6 +57,7 @@ function Modal({ }, ref: React.Ref<any>) {
         /* 
         React Modal component is required to display overlay above Navigator Header Bar 
         because absolute positioned children cannot overlay ancestor even with zIndex
+        TODO: Add BackHandler use onRequestClose instead for Modal
         */
         <ReactModal transparent={true} visible={true} animationType='none'>
             {/* 
@@ -60,7 +65,7 @@ function Modal({ }, ref: React.Ref<any>) {
                 CAN BE OVERRIDEN BY CHILD THAT STACKS ON TOP
             */}
             <Animated.View
-                style={styles.backdrop}
+                style={[styles.backdrop, transparent && { backgroundColor: 'transparent' }]}
                 onTouchEnd={handleBackdrop}
             >
             </Animated.View>

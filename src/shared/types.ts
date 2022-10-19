@@ -62,6 +62,7 @@ export interface CatalogPost extends Omit<OriginalPost, 'uniqueIps'> {
     omittedPosts: number;
     omittedImages: number;
     lastModified: number;
+    index?: number; // used to sort by bump order
     // lastReplies: ReplyPost[];
 }
 
