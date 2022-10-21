@@ -1,20 +1,14 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import {
-    StyleSheet,
-    View,
-    FlatList,
-    ActivityIndicator,
-    RefreshControl,
-    ListRenderItem,
-} from 'react-native';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, ListRenderItem, RefreshControl, StyleSheet, View } from 'react-native';
+import Repository from '../../data/repository/Repository';
 import { PostItem } from '../post';
 import { Separator } from '../ui';
-import { useThreadContext, ThreadContextInterface } from './ThreadContext';
-import Repository from '../../data/repository/Repository';
+import CircularProgressIndicator from '../ui/CircularProgressIndicator';
+import { ModalHistorySyncContextInterface, useModalHistorySyncContext } from '../ui/modal/ModalHistorySyncContext';
+import { ModalVisibilityContextInterface, useModalVisibility } from '../ui/modal/ModalVisibilityContext';
+import { ThreadContextInterface, useThreadContext } from './ThreadContext';
 import ThreadStats from './ThreadStats';
-import { useModalHistorySyncContext, ModalHistorySyncContextInterface } from '../ui/modal/ModalHistorySyncContext';
-import { useModalVisibility, ModalVisibilityContextInterface } from '../ui/modal/ModalVisibilityContext';
 
 
 function Thread({ }, ref: React.Ref<FlatList>) {
@@ -89,8 +83,9 @@ function Thread({ }, ref: React.Ref<FlatList>) {
 
     return (
         <View style={styles.container}>
-            {isLoading ? <ActivityIndicator /> : (
-                <FlatList
+            {isLoading
+                ? <CircularProgressIndicator />
+                : <FlatList
                     ref={ref}
                     data={data}
                     keyExtractor={keyExtractor}
@@ -105,7 +100,7 @@ function Thread({ }, ref: React.Ref<FlatList>) {
                     ListFooterComponent={listFooterComponent}
                     ListFooterComponentStyle={styles.listFooterComponentStyle}
                 />
-            )}
+            }
         </View>
     );
 }

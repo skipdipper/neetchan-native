@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-    ActivityIndicator, FlatList, RefreshControl, StyleSheet,
-    View
-} from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import Repository from '../../data/repository/Repository';
 import { CatalogPost } from '../../shared/types';
 import { Separator } from '../ui';
+import CircularProgressIndicator from '../ui/CircularProgressIndicator';
 import { CatalogContextInterface, useCatalogContext } from './CatalogContext';
 import CatalogListItem from './CatalogListItem';
 
@@ -75,8 +73,9 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
 
     return (
         <View style={styles.container}>
-            {isLoading ? <ActivityIndicator /> : (
-                <FlatList
+            {isLoading
+                ? <CircularProgressIndicator />
+                : <FlatList
                     ref={ref}
                     data={data}
                     keyExtractor={keyExtractor}
@@ -89,9 +88,9 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
                     renderItem={renderItem}
                     ItemSeparatorComponent={Separator}
                 />
-            )}
+            }
         </View>
-    )
+    );
 }
 
 export default React.forwardRef(CatalogList);
