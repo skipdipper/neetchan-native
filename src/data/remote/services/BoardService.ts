@@ -1,33 +1,17 @@
-import { boardFromDto } from "../Mappers";
 import { BoardArrayDto } from "../dto/BoardsDto";
-
-const controller = new AbortController();
-const signal = controller.signal;
+import HttpClient from "../HttpClient";
+import { boardFromDto } from "../Mappers";
 
 class BoardService {
     async getBoard() {
-        const boardUrl = () => `https://a.4cdn.org/boards.json`;
+        const boardUrl = 'https://a.4cdn.org/boards.json';
 
-        try {
-            const response = await fetch(boardUrl(), { signal });
+        const client = new HttpClient();
+        const json = await client.get<BoardArrayDto>(boardUrl);
 
-            if (!response.ok) {
-                const error = new Error(response.statusText);
-                return Promise.reject(error);
-            }
+        const boards = json.boards.map(board => boardFromDto(board));
 
-            const json: BoardArrayDto = await response.json();
-            const boards = json.boards.map(board => boardFromDto(board));
-
-            return boards;
-
-        } catch (error: any) {
-            console.log(error);
-            if (error.name === "AbortError") {
-                console.log('Fetch request aborted');
-            }
-            return Promise.reject(error);
-        }
+        return boards;
     }
 }
 
