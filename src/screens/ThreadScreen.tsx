@@ -51,8 +51,8 @@ export default function ThreadScreen({ navigation, route }: ThreadScreenProps) {
                 <Modal ref={modalRef} />
             </ModalHistorySyncProvider>
         </SafeAreaView>
-    )
-};
+    );
+}
 
 const styles = StyleSheet.create({
     container: {

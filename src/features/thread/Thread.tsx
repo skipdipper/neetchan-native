@@ -5,6 +5,7 @@ import Repository from '../../data/repository/Repository';
 import { PostItem } from '../post';
 import { Separator } from '../ui';
 import CircularProgressIndicator from '../ui/CircularProgressIndicator';
+import Error from '../ui/error/Error';
 import { ModalHistorySyncContextInterface, useModalHistorySyncContext } from '../ui/modal/ModalHistorySyncContext';
 import { ModalVisibilityContextInterface, useModalVisibility } from '../ui/modal/ModalVisibilityContext';
 import { ThreadContextInterface, useThreadContext } from './ThreadContext';
@@ -15,12 +16,9 @@ function Thread({ }, ref: React.Ref<FlatList>) {
     const route = useRoute<any>();
     const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
     const historyStack = useModalHistorySyncContext() as ModalHistorySyncContextInterface;
-
-    const [isLoading, setLoading] = useState(true);
-
-    // Type assert data, setData is not null
     const { data: thread, setData } = useThreadContext() as ThreadContextInterface;
-
+    const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
@@ -33,13 +31,17 @@ function Thread({ }, ref: React.Ref<FlatList>) {
     const { board, threadId } = route.params;
 
     const getThread = async () => {
+        setIsError(false);
+        setIsLoading(true);
+
         try {
             const thread = await Repository.getThread(board, threadId);
             setData(thread);
         } catch (error) {
             console.error(error);
+            setIsError(true);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     }
 
@@ -80,6 +82,8 @@ function Thread({ }, ref: React.Ref<FlatList>) {
 
     const keyExtractor = (item: any) => String(item.postId);
 
+
+    if (isError) return (<Error title="Network Error" />);
 
     return (
         <View style={styles.container}>

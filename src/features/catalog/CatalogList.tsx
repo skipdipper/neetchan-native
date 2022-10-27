@@ -4,6 +4,7 @@ import Repository from '../../data/repository/Repository';
 import { CatalogPost } from '../../shared/types';
 import { Separator } from '../ui';
 import CircularProgressIndicator from '../ui/CircularProgressIndicator';
+import Error from '../ui/error/Error';
 import { CatalogContextInterface, useCatalogContext } from './CatalogContext';
 import CatalogListItem from './CatalogListItem';
 
@@ -13,8 +14,9 @@ type CatalogListProps = {
 };
 
 function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
-    const [isLoading, setLoading] = useState(true);
     const { data, setData } = useCatalogContext() as CatalogContextInterface;
+    const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const initRender = useRef(true);
 
@@ -28,14 +30,17 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
 
     const getCatalog = async () => {
         console.log('Fetching Catalog from API');
+        setIsError(false);
+        setIsLoading(true);
+
         try {
-            setLoading(true);
             const threads = await Repository.getCatalog(board);
             setData(threads);
         } catch (error) {
             console.error(error);
+            setIsError(true);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     }
 
@@ -47,7 +52,7 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
         // Use stale Data after canceling Search Filtering 
         if (data?.length) {
             // console.log('NOT fetching Catalog from API');
-            setLoading(false);
+            setIsLoading(false);
             return;
         }
         getCatalog();
@@ -70,6 +75,8 @@ function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
 
     const keyExtractor = (item: CatalogPost) => String(item.postId);
 
+
+    if (isError) return (<Error title="Network Error" />);
 
     return (
         <View style={styles.container}>
