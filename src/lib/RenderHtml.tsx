@@ -1,5 +1,6 @@
 import { Text, View } from 'react-native';
 import { parseDocument, ElementType } from 'htmlparser2';
+import { ChildNode, Element, Document } from "domhandler";
 import React from 'react';
 import { CrossLink, DeadLink, Quote, QuoteLink, ThreadLink, WebLink, SpoilerText } from './render-element';
 
@@ -8,8 +9,8 @@ type RenderHtmlProps = {
     html: string,
 };
 
-/*
-Adapted from: https://meliorence.github.io/react-native-render-html/docs/reinvent-the-wheel
+/**
+    Adapted from: https://meliorence.github.io/react-native-render-html/docs/reinvent-the-wheel
 */
 export default function RenderHtml({ html }: RenderHtmlProps) {
     const ignoredTags = ['head', 'wbr'];
@@ -18,18 +19,22 @@ export default function RenderHtml({ html }: RenderHtmlProps) {
     const renderTextNode: React.FC = (textNode: any, index: number) => {
         if (textNode.data.includes('http')) {
             const urlRegex = /(https?:\/\/[^\s]+)/g;
-            const parts = textNode.data.split(urlRegex);
+            const parts = textNode.data.split(urlRegex).filter((element: string) => element);
+
             return (
                 // TODO: Fix nested Text overflowing
-                <Text key={index} selectable={true} selectionColor='orange' style={{ textAlignVertical: 'top' }}>
+                <React.Fragment key={index}>
+
                     {
                         parts.map((part: string, index: number) => (part.match(urlRegex)
                             ? <WebLink key={index} url={part} />
-                            : part
+                            : <Text key={index} selectable={true} selectionColor='orange'>
+                                {part}
+                            </Text>
                         ))
                     }
-                </Text>
-            )
+                </React.Fragment>
+            );
         }
 
         return (
@@ -117,8 +122,9 @@ export default function RenderHtml({ html }: RenderHtmlProps) {
         return null;
     }
 
+    // Remove all instances of word break tag
+    const document = parseDocument(html.replaceAll('<wbr>', ''));
 
-    const document = parseDocument(html.replace('<wbr>', ''));
     return (
         <Text>{document.children.map((c, i) => renderNode(c, i))}</Text>
     );
