@@ -85,7 +85,7 @@ export default function CatalogHeaderBar({ board, setBoard }: CatalogHeaderBarPr
             actions={[
                 <SearchButton onPress={toggleSearchBarVisibility} />,
                 refreshButton,
-                <CatalogPopupMenuButton />
+                <CatalogPopupMenuButton board={board} />
             ]}
         />
     );
