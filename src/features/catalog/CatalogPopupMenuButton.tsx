@@ -1,5 +1,5 @@
-import React from "react";
-import { Alert, Share } from "react-native";
+import React, { useCallback } from "react";
+import { Alert, Linking, Share } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollControllerContextInterface, useScrollControllerContext } from "../gallery/ScrollControllerContext";
 import { ModalVisibilityContextInterface, useModalVisibility } from "../ui/modal/ModalVisibilityContext";
@@ -44,6 +44,18 @@ export default function CatalogPopupMenuButton({ board }: CatalogPopupMenuButton
         }
     }
 
+    const openBrowser = useCallback(async () => {
+        const url = `https://boards.4channel.org/${board}`;
+
+        const supported = await Linking.canOpenURL(url);
+
+        if (supported) {
+            await Linking.openURL(url);
+        } else {
+            Alert.alert(`Don't know how to open this URL: ${url}`);
+        }
+    }, [board]);
+
     const icon = <Icon name="more-vert" size={24} color="#333" />;
 
     const showCatalogSortByMenu = () => {
@@ -57,7 +69,7 @@ export default function CatalogPopupMenuButton({ board }: CatalogPopupMenuButton
             popupMenuEntry={[
                 <PopupMenuItem child='sort' action={showCatalogSortByMenu} />,
                 <PopupMenuItem child='archive' />,
-                <PopupMenuItem child='open in a browser' />,
+                <PopupMenuItem child='open in a browser' action={openBrowser} />,
                 <PopupMenuItem child='share' action={share} />,
                 <PopupMenuItem child='top' action={scrollToTop} />,
                 <PopupMenuItem child='bottom' action={scrollToBottom} />,

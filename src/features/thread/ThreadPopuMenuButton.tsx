@@ -1,6 +1,6 @@
 import { useRoute } from "@react-navigation/native";
-import React from "react";
-import { Alert, Share } from "react-native";
+import React, { useCallback } from "react";
+import { Alert, Linking, Share } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollControllerContextInterface, useScrollControllerContext } from "../gallery/ScrollControllerContext";
 import { PopupMenuButton, PopupMenuItem } from "../ui/popupmenu";
@@ -22,7 +22,6 @@ export default function ThreadPopupMenuButton() {
 
     const share = async () => {
         const { board, threadId } = route.params;
-
         const message = `https://boards.4chan.org/${board}/thread/${threadId}`;
         const dialogTitle = 'share';
 
@@ -43,6 +42,19 @@ export default function ThreadPopupMenuButton() {
         }
     }
 
+    const openBrowser = useCallback(async () => {
+        const { board, threadId } = route.params;
+        const url = `https://boards.4chan.org/${board}/thread/${threadId}`;
+
+        const supported = await Linking.canOpenURL(url);
+
+        if (supported) {
+            await Linking.openURL(url);
+        } else {
+            Alert.alert(`Don't know how to open this URL: ${url}`);
+        }
+    }, []);
+
     const icon = <Icon name="more-vert" size={24} color="#fff" />;
 
 
@@ -53,7 +65,7 @@ export default function ThreadPopupMenuButton() {
                 <PopupMenuItem child='search' />,
                 <PopupMenuItem child='reload' />,
                 <PopupMenuItem child='archive' />,
-                <PopupMenuItem child='open in a browser' />,
+                <PopupMenuItem child='open in a browser' action={openBrowser} />,
                 <PopupMenuItem child='share' action={share} />,
                 <PopupMenuItem child='top' action={scrollToTop} />,
                 <PopupMenuItem child='bottom' action={scrollToBottom} />,
