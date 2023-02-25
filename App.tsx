@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CatalogScreen from './src/screens/CatalogScreen';
-import GalleryScreen from './src/screens/MediaViewerScreen';
+import MediaViewerScreen from './src/screens/MediaViewerScreen';
 import ThreadScreen from './src/screens/ThreadScreen';
 import GalleryHeaderBar from './src/features/media-viewer/GalleryHeaderBar';
 import { CatalogProvider } from './src/features/catalog/CatalogContext';
@@ -36,8 +36,8 @@ const ThreadStackScreen = () => {
 
           <ThreadStack.Group screenOptions={{ presentation: 'transparentModal' }}>
             <ThreadStack.Screen
-              name="Gallery"
-              component={GalleryScreen}
+              name="MediaViewer"
+              component={MediaViewerScreen}
               options={({ route }: { route: any }) => ({
                 // TODO: use custom header component with buttons
                 headerTitle: () => (
@@ -89,8 +89,8 @@ const App = () => {
         {/* Common modal screens */}
         <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
           <Stack.Screen
-            name="Gallery"
-            component={GalleryScreen}
+            name="MediaViewer"
+            component={MediaViewerScreen}
             options={({ route }: { route: any }) => ({
               // TODO: use custom header component with buttons
               headerTitle: () => (

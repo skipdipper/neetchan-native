@@ -51,12 +51,12 @@ interface ViewableItems {
     changed: Array<ViewToken>
 }
 
-type GalleryScreenProps = {
+type MediaViewerScreenProps = {
     navigation: any,
     route: any,
 };
 
-export default function GalleryScreen({ navigation, route }: GalleryScreenProps) {
+export default function MediaViewerScreen({ navigation, route }: MediaViewerScreenProps) {
     const { scrollRef } = useScrollControllerContext() as ScrollControllerContextInterface;
 
     const { tim, catalog } = route.params;

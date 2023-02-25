@@ -25,7 +25,7 @@ export default function Thumbnail({ uri, tim, filename, fileExtension, catalog }
         <View style={styles.container}>
             <Pressable onPress={() => {
                 console.log(`Pressed on Thumbnail ${tim}${fileExtension}`);
-                navigation.navigate('Gallery', { tim: tim, filename: filename, fileExtension: fileExtension, catalog: catalog });
+                navigation.navigate('MediaViewer', { tim: tim, filename: filename, fileExtension: fileExtension, catalog: catalog });
             }}
             >
                 <Image
