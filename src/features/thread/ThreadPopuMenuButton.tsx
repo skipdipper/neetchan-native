@@ -2,7 +2,7 @@ import { useRoute } from "@react-navigation/native";
 import React, { useCallback } from "react";
 import { Alert, Linking, Share } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { ScrollControllerContextInterface, useScrollControllerContext } from "../gallery/ScrollControllerContext";
+import { ScrollControllerContextInterface, useScrollControllerContext } from "../media-viewer/ScrollControllerContext";
 import { PopupMenuButton, PopupMenuItem } from "../ui/popupmenu";
 
 

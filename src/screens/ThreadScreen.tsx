@@ -3,7 +3,7 @@ import {
     FlatList, SafeAreaView,
     StyleSheet
 } from 'react-native';
-import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/gallery/ScrollControllerContext';
+import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/media-viewer/ScrollControllerContext';
 import Thread from '../features/thread/Thread';
 import { AppStatusBar } from '../features/ui';
 import Modal from '../features/ui/modal/Modal';

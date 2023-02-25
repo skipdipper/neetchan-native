@@ -4,7 +4,7 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import CatalogHeaderBar from '../features/catalog/CatalogHeaderBar';
 import CatalogList from '../features/catalog/CatalogList';
 import CatalogListItem from '../features/catalog/CatalogListItem';
-import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/gallery/ScrollControllerContext';
+import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/media-viewer/ScrollControllerContext';
 import { SearchActiveContextInterface, useSearchActiveContext } from '../features/search/SearchActiveContext';
 import SearchResult from '../features/search/SearchResult';
 import { AppStatusBar } from '../features/ui';

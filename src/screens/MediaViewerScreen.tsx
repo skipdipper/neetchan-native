@@ -10,14 +10,14 @@ import {
     ViewabilityConfigCallbackPairs,
     Pressable,
 } from 'react-native';
-import GalleryImage from '../features/gallery/GalleryImage';
-import GalleryVideo from '../features/gallery/GalleryVideo';
+import GalleryImage from '../features/media-viewer/GalleryImage';
+import GalleryVideo from '../features/media-viewer/GalleryVideo';
 import { useCatalogContext } from '../features/catalog/CatalogContext';
 import { useThreadContext } from '../features/thread/ThreadContext';
 import { AppStatusBar } from '../features/ui';
 import PageView from '../features/ui/PageView';
-import GalleryHeaderBar from '../features/gallery/GalleryHeaderBar';
-import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/gallery/ScrollControllerContext';
+import GalleryHeaderBar from '../features/media-viewer/GalleryHeaderBar';
+import { ScrollControllerContextInterface, useScrollControllerContext } from '../features/media-viewer/ScrollControllerContext';
 
 
 const getGalleryItems = (data: Map<number, any> | Array<any>) => {

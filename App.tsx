@@ -2,16 +2,16 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CatalogScreen from './src/screens/CatalogScreen';
-import GalleryScreen from './src/screens/GalleryScreen';
+import GalleryScreen from './src/screens/MediaViewerScreen';
 import ThreadScreen from './src/screens/ThreadScreen';
-import GalleryHeaderBar from './src/features/gallery/GalleryHeaderBar';
+import GalleryHeaderBar from './src/features/media-viewer/GalleryHeaderBar';
 import { CatalogProvider } from './src/features/catalog/CatalogContext';
 import { SearchProvider } from './src/features/search/SearchContext';
 import { SearchActiveProvider } from './src/features/search/SearchActiveContext';
 import CatalogHeaderBar from './src/features/catalog/CatalogHeaderBar';
 import { ThreadProvider } from './src/features/thread/ThreadContext';
 import { ModalVisibilityProvider } from './src/features/ui/modal/ModalVisibilityContext';
-import { ScrollControllerProvider } from './src/features/gallery/ScrollControllerContext';
+import { ScrollControllerProvider } from './src/features/media-viewer/ScrollControllerContext';
 import ThreadHeaderBar from './src/features/thread/ThreadHeaderBar';
 
 // Nested Stack Navigator
