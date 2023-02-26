@@ -1,18 +1,19 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { CatalogProvider } from './src/features/catalog/CatalogContext';
+import CatalogHeaderBar from './src/features/catalog/CatalogHeaderBar';
+import GalleryHeaderBar from './src/features/media-viewer/GalleryHeaderBar';
+import { ScrollControllerProvider } from './src/features/media-viewer/ScrollControllerContext';
+import { SearchActiveProvider } from './src/features/search/SearchActiveContext';
+import { SearchProvider } from './src/features/search/SearchContext';
+import { ThreadProvider } from './src/features/thread/ThreadContext';
+import ThreadHeaderBar from './src/features/thread/ThreadHeaderBar';
+import { ModalVisibilityProvider } from './src/features/ui/modal/ModalVisibilityContext';
 import CatalogScreen from './src/screens/CatalogScreen';
+import GalleryScreen from './src/screens/GalleryScreen';
 import MediaViewerScreen from './src/screens/MediaViewerScreen';
 import ThreadScreen from './src/screens/ThreadScreen';
-import GalleryHeaderBar from './src/features/media-viewer/GalleryHeaderBar';
-import { CatalogProvider } from './src/features/catalog/CatalogContext';
-import { SearchProvider } from './src/features/search/SearchContext';
-import { SearchActiveProvider } from './src/features/search/SearchActiveContext';
-import CatalogHeaderBar from './src/features/catalog/CatalogHeaderBar';
-import { ThreadProvider } from './src/features/thread/ThreadContext';
-import { ModalVisibilityProvider } from './src/features/ui/modal/ModalVisibilityContext';
-import { ScrollControllerProvider } from './src/features/media-viewer/ScrollControllerContext';
-import ThreadHeaderBar from './src/features/thread/ThreadHeaderBar';
 
 // Nested Stack Navigator
 // Hack to Provide separate ThreadContext for different instances of ThreadScreen and GalleryScreen
@@ -34,6 +35,11 @@ const ThreadStackScreen = () => {
             })}
           />
 
+          <ThreadStack.Screen
+            name="Gallery"
+            component={GalleryScreen}
+          />
+
           <ThreadStack.Group screenOptions={{ presentation: 'transparentModal' }}>
             <ThreadStack.Screen
               name="MediaViewer"
@@ -46,7 +52,6 @@ const ThreadStackScreen = () => {
                     fileExtension={route.params.fileExtension}
                   />
                 ),
-
               })}
             />
           </ThreadStack.Group>

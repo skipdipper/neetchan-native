@@ -5,6 +5,16 @@ export interface Thread {
     posts: [OriginalPost, ...ReplyPost[]];
 }
 
+export type ThreadPost = ReplyPost | OriginalPost;
+
+export enum MimeType {
+    WEBM = '.webm',
+    PNG = '.png',
+    JPG = '.jpg',
+    JPEG = '.jpeg',
+    GIF = '.gif'
+}
+
 export interface Attachment {
     tim: number;
     filename: string;
