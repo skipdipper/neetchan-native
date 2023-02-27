@@ -17,7 +17,7 @@ export default function GalleryImage({ uri, onLoad }: GalleryImageProps) {
     const handleLoad = () => {
         setIsLoading(false);
     }
-    // TODO: Add animated GIF support
+    
     return (
         <>
             <Image
@@ -25,6 +25,7 @@ export default function GalleryImage({ uri, onLoad }: GalleryImageProps) {
                 source={{ uri: uri }}
                 resizeMode='contain'
                 onLoadEnd={handleLoad}
+                progressiveRenderingEnabled={true}
             />
             <ActivityIndicator style={{ position: 'absolute' }}
                 animating={isLoading}

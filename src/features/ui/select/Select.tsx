@@ -47,6 +47,7 @@ export default function Select({ children, value, onChanged }: SelectProps<any>)
                     onPress={() => {
                         handleChange(child.props.value);
                     }}
+                    style={currentValue === child.props.value && { backgroundColor: 'grey' }}
                 >
                     {child}
                 </Pressable>

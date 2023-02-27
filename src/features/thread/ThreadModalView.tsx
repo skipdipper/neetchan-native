@@ -24,7 +24,6 @@ export default function ThreadModalView({ backdrop = true }: ThreadModalViewProp
         if (!historyStack.isEmpty()) {
             modalRef.current.registerChild(<ThreadModalView />);
         } else {
-            console.log('Current Stack Size:', historyStack.size());
             modalRef.current.closeModal();
         }
     }

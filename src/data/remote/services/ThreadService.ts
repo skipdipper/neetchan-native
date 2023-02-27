@@ -30,7 +30,7 @@ class ThreadService {
         // Populate Post Reply Ids for each post
         json.posts.forEach(post => {
             const comment = post.com;
-            if (!comment) return;
+            if (comment === undefined) return;
 
             const postIds = getQuoteIds(comment);
             postIds.forEach(postId => {

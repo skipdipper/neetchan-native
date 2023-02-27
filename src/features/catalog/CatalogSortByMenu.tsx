@@ -25,7 +25,8 @@ export default function CatalogSortByMenu() {
         console.log('Catalog SortBy', value);
         // Urgent update Radio Icon checked status
         setChecked(value);
-        // TODO: Fix transition not deferring 
+        // TODO: Fix transition not deferring
+        // Enable new architecture required for React 18 concurrent features  
         modalRef.current.closeModal();
         // Transition update, alternative to flushSync
         startTransition(() => {

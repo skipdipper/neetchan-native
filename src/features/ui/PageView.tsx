@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 
 
-/*
-    See example of single ViewToken object from https://reactnative.dev/docs/viewtoken
-*/
+/**
+ * See example of single ViewToken object from https://reactnative.dev/docs/viewtoken
+ */
 interface ViewableItems {
     viewableItems: Array<ViewToken>
     changed: Array<ViewToken>
@@ -26,7 +26,6 @@ type PageViewProps = {
     initialScrollIndex?: number;
     keyExtractor?: (item: any, index: number) => string;
     customViewabilityConfigCallbackPairs: ViewabilityConfigCallbackPairs;
-
 };
 
 export default function PageView({

@@ -24,6 +24,7 @@ export default function WebLink({ url }: WebLinkProps) {
         }
     }, [url]);
 
+    // TODO: Fix Pressable preventing text wrapping 
     return (
         <PressableHighlight onPress={handlePress}>
             <Text
@@ -40,5 +41,6 @@ const styles = StyleSheet.create({
     weblink: {
         color: 'orange',
         textDecorationLine: 'underline',
+        flexShrink: 1
     },
 });

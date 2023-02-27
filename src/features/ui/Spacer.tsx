@@ -9,9 +9,9 @@ type SpacerProps = {
     flex?: number
 };
 
-/*
-Spacer takes up empty space with default flex: 1 
-*/
+/**
+ * Spacer takes up empty space with default flex: 1 
+ */
 export default function Spacer({ flex = 1 }: SpacerProps) {
     return (
         <View style={{ flex: flex }}></View>
