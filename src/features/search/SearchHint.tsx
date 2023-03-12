@@ -3,28 +3,32 @@ import { StyleSheet, View, Text } from 'react-native';
 import { SearchContextInterface, useSearchContext } from './SearchContext';
 
 export default function SearchHint() {
-    const { searchText, filteredData, } = useSearchContext() as SearchContextInterface;
+  const { searchText, filteredData } =
+    useSearchContext() as SearchContextInterface;
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.text}>
-                {searchText
-                    ? <Text>Found {filteredData.length} posts for "{searchText}"</Text>
-                    : <Text>Search subjects, comments, names, and filenames</Text>
-                }
-            </Text>
-        </View>
-    );
-};
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>
+        {searchText ? (
+          <Text>
+            Found {filteredData.length} posts for "{searchText}"
+          </Text>
+        ) : (
+          <Text>Search subjects, comments, names, and filenames</Text>
+        )}
+      </Text>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-    container: {
-        // flex: 1,
-    },
-    text: {
-        textAlignVertical: 'center',
-        textAlign: 'center',
-        padding: 8,
-        fontSize: 12,
-    }
+  container: {
+    // flex: 1,
+  },
+  text: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    padding: 8,
+    fontSize: 12
+  }
 });

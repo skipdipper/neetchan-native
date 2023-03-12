@@ -1,8 +1,8 @@
-import {useNavigation} from '@react-navigation/native';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Attachment, MimeType} from '../../shared/types';
-import {formatBytes} from '../../utils';
+import { Attachment, MimeType } from '../../shared/types';
+import { formatBytes } from '../../utils';
 
 interface GalleryItemProps
   extends Pick<
@@ -23,7 +23,7 @@ export default function GalleryItem({
   filesize,
   thumbnailUrl,
   width,
-  height,
+  height
 }: GalleryItemProps) {
   const navigation = useNavigation<any>();
 
@@ -32,7 +32,7 @@ export default function GalleryItem({
       tim: tim,
       filename: filename,
       fileExtension: fileExtension,
-      catalog: false,
+      catalog: false
     });
 
   return (
@@ -40,12 +40,12 @@ export default function GalleryItem({
       <View>
         <Image
           style={styles.dimensions}
-          source={{uri: thumbnailUrl}}
+          source={{ uri: thumbnailUrl }}
           progressiveRenderingEnabled={true}
         />
 
         <View style={styles.label}>
-          <Text style={[{textTransform: 'uppercase'}, styles.text]}>
+          <Text style={[{ textTransform: 'uppercase' }, styles.text]}>
             {fileExtension.substring(1)} {width}x{height}
           </Text>
           <Text style={styles.text}>{formatBytes(filesize, 1)}</Text>
@@ -66,24 +66,24 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 120,
     width: '100%',
-    resizeMode: 'cover',
+    resizeMode: 'cover'
   },
   label: {
     position: 'absolute',
     bottom: 0,
     width: '100%',
     backgroundColor: 'rgba(54, 54, 54, 0.6)',
-    padding: 2,
+    padding: 2
   },
   text: {
     fontSize: 10,
-    color: 'white',
+    color: 'white'
   },
   video: {
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '100%',
-  },
+    height: '100%'
+  }
 });

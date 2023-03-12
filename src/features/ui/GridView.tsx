@@ -3,7 +3,7 @@ import {
   FlatListProps,
   FlexStyle,
   ListRenderItem,
-  View,
+  View
 } from 'react-native';
 
 interface GridViewProps<ItemType>
@@ -20,7 +20,7 @@ export default function GridView<ItemType>({
   // TODO: Flexbox gap instead of margin
   const renderItemWrapper: ListRenderItem<ItemType> = item => {
     return (
-      <View style={{flex: 1 / numColumns, margin: gap}}>
+      <View style={{ flex: 1 / numColumns, margin: gap }}>
         {renderItem?.(item)}
       </View>
     );

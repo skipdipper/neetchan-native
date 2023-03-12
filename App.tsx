@@ -17,7 +17,7 @@ import ThreadScreen from './src/screens/ThreadScreen';
 
 // Nested Stack Navigator
 // Hack to Provide separate ThreadContext for different instances of ThreadScreen and GalleryScreen
-// and not single global ThreadContext 
+// and not single global ThreadContext
 const ThreadStackScreen = () => {
   const ThreadStack = createNativeStackNavigator();
 
@@ -29,18 +29,15 @@ const ThreadStackScreen = () => {
             name="NestedThread"
             component={ThreadScreen}
             options={({ route }: { route: any }) => ({
-              header: () => (
-                <ThreadHeaderBar />
-              )
+              header: () => <ThreadHeaderBar />
             })}
           />
 
-          <ThreadStack.Screen
-            name="Gallery"
-            component={GalleryScreen}
-          />
+          <ThreadStack.Screen name="Gallery" component={GalleryScreen} />
 
-          <ThreadStack.Group screenOptions={{ presentation: 'transparentModal' }}>
+          <ThreadStack.Group
+            screenOptions={{ presentation: 'transparentModal' }}
+          >
             <ThreadStack.Screen
               name="MediaViewer"
               component={MediaViewerScreen}
@@ -51,7 +48,7 @@ const ThreadStackScreen = () => {
                     filename={route.params.filename}
                     fileExtension={route.params.fileExtension}
                   />
-                ),
+                )
               })}
             />
           </ThreadStack.Group>
@@ -59,16 +56,14 @@ const ThreadStackScreen = () => {
       </ModalVisibilityProvider>
     </ThreadProvider>
   );
-}
+};
 
 const App = () => {
   const Stack = createNativeStackNavigator();
 
   const AppNavigation = () => (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Catalog"
-      >
+      <Stack.Navigator initialRouteName="Catalog">
         {/* Common screens */}
         <Stack.Group>
           <Stack.Screen
@@ -77,7 +72,7 @@ const App = () => {
             options={{
               header: () => (
                 // TODO: Fix board undefined
-                <CatalogHeaderBar board='a' />
+                <CatalogHeaderBar board="a" />
               )
             }}
           />
@@ -87,7 +82,7 @@ const App = () => {
             // component={ThreadScreen}
             component={ThreadStackScreen}
             options={{ headerShown: false }}
-          // options={({ route }: { route: any }) => ({ title: String(route.params.no) })}
+            // options={({ route }: { route: any }) => ({ title: String(route.params.no) })}
           />
         </Stack.Group>
 
@@ -103,13 +98,13 @@ const App = () => {
                   filename={route.params.filename}
                   fileExtension={route.params.fileExtension}
                 />
-              ),
+              )
             })}
           />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
-  )
+  );
 
   return (
     // Provider cannot be directly wrapped around Stack.Navigator
@@ -124,7 +119,7 @@ const App = () => {
         </SearchActiveProvider>
       </SearchProvider>
     </CatalogProvider>
-  )
+  );
 };
 
 export default App;

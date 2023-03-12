@@ -1,17 +1,17 @@
-import { Board } from "../../../shared/types";
-import KVstore from "../KVstore";
+import { Board } from '../../../shared/types';
+import KVstore from '../KVstore';
 
 class BoardDao {
-    private boardKey = 'board.all';
+  private boardKey = 'board.all';
 
-    getAllBoards(): Board[] | undefined {
-        const boards = KVstore.retrieveDataObject(this.boardKey);
-        return boards;
-    }
+  getAllBoards(): Board[] | undefined {
+    const boards = KVstore.retrieveDataObject(this.boardKey);
+    return boards;
+  }
 
-    initBoards(boards: object) {
-        KVstore.storeDataObject(boards, this.boardKey);
-    }
+  initBoards(boards: object) {
+    KVstore.storeDataObject(boards, this.boardKey);
+  }
 }
 
 export default new BoardDao();

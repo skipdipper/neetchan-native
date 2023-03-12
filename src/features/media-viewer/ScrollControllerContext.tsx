@@ -1,17 +1,18 @@
 import { useContext, createContext, useMemo, useRef } from 'react';
 import { FlatList } from 'react-native';
 
-
-const ScrollControllerContext = createContext<ScrollControllerContextInterface | null>(null);
+const ScrollControllerContext =
+  createContext<ScrollControllerContextInterface | null>(null);
 
 export interface ScrollControllerContextInterface {
-    scrollRef: React.MutableRefObject<FlatList | null>;
+  scrollRef: React.MutableRefObject<FlatList | null>;
 }
 
-export const useScrollControllerContext = () => useContext(ScrollControllerContext);
+export const useScrollControllerContext = () =>
+  useContext(ScrollControllerContext);
 
 type ScrollContextProps = {
-    children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 /* 
@@ -19,17 +20,19 @@ Scroll controller for Gallery Screen to imperatively control scroll position
 of React flatlist components CatalogList and Thread via the ref attribute
 */
 export function ScrollControllerProvider({ children }: ScrollContextProps) {
-    // TODO: use callback ref instead for more granular control
-    const scrollRef = useRef<FlatList | null>(null);
+  // TODO: use callback ref instead for more granular control
+  const scrollRef = useRef<FlatList | null>(null);
 
-    const value = useMemo(() => ({
-        scrollRef,
-    }), [scrollRef.current]);
+  const value = useMemo(
+    () => ({
+      scrollRef
+    }),
+    [scrollRef.current]
+  );
 
-
-    return (
-        <ScrollControllerContext.Provider value={value}>
-            {children}
-        </ScrollControllerContext.Provider>
-    );
+  return (
+    <ScrollControllerContext.Provider value={value}>
+      {children}
+    </ScrollControllerContext.Provider>
+  );
 }

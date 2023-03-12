@@ -1,30 +1,34 @@
 import { useContext, createContext, useMemo, useRef } from 'react';
 
-
-const ModalVisibilityContext = createContext<ModalVisibilityContextInterface | null>(null);
+const ModalVisibilityContext =
+  createContext<ModalVisibilityContextInterface | null>(null);
 
 export interface ModalVisibilityContextInterface {
-    // modalRef: React.Ref<any>;
-    modalRef: any
+  // modalRef: React.Ref<any>;
+  modalRef: any;
 }
 
-// Custom hook for Modal Visibility state 
+// Custom hook for Modal Visibility state
 export const useModalVisibility = () => useContext(ModalVisibilityContext);
 
 type ModalVisibilityContextProps = {
-    children: React.ReactNode,
+  children: React.ReactNode;
 };
-export function ModalVisibilityProvider({ children }: ModalVisibilityContextProps) {
-    const modalRef = useRef();
+export function ModalVisibilityProvider({
+  children
+}: ModalVisibilityContextProps) {
+  const modalRef = useRef();
 
-    const value = useMemo(() => ({
-        modalRef,
-    }), [modalRef.current]);
+  const value = useMemo(
+    () => ({
+      modalRef
+    }),
+    [modalRef.current]
+  );
 
-
-    return (
-        <ModalVisibilityContext.Provider value={value}>
-            {children}
-        </ModalVisibilityContext.Provider>
-    );
+  return (
+    <ModalVisibilityContext.Provider value={value}>
+      {children}
+    </ModalVisibilityContext.Provider>
+  );
 }
