@@ -1,12 +1,9 @@
 import { useState, useTransition } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { CatalogPost } from '../../shared/types';
-import {
-  ModalVisibilityContextInterface,
-  useModalVisibility
-} from '../ui/modal/ModalVisibilityContext';
+import { useModalVisibility } from '../ui/modal/ModalVisibilityContext';
 import RadioListTile from '../ui/select/RadioListTile';
-import { CatalogContextInterface, useCatalogContext } from './CatalogContext';
+import { useCatalogContext } from './CatalogContext';
 
 const Sort = {
   BUMP: 'bump',
@@ -19,10 +16,10 @@ const Sort = {
 
 export default function CatalogSortByMenu() {
   const [isPending, startTransition] = useTransition();
-  const { data, setData } = useCatalogContext() as CatalogContextInterface;
+  const { data, setData } = useCatalogContext();
   const [checked, setChecked] = useState(Sort.BUMP);
 
-  const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
+  const { modalRef } = useModalVisibility();
 
   const handleChange = (value: any) => {
     console.log('Catalog SortBy', value);

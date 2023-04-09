@@ -1,14 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import ThreadModalView from '../../features/thread/ThreadModalView';
-import {
-  ModalHistorySyncContextInterface,
-  useModalHistorySyncContext
-} from '../../features/ui/modal/ModalHistorySyncContext';
-import {
-  ModalVisibilityContextInterface,
-  useModalVisibility
-} from '../../features/ui/modal/ModalVisibilityContext';
+import { useModalHistorySyncContext } from '../../features/ui/modal/ModalHistorySyncContext';
+import { useModalVisibility } from '../../features/ui/modal/ModalVisibilityContext';
 import PressableHighlight from '../../features/ui/PressableHighlight';
 
 type QuoteLinkProps = {
@@ -18,10 +12,8 @@ type QuoteLinkProps = {
 
 export default function QuoteLink({ children, href }: QuoteLinkProps) {
   // TODO: Fix Render Error cannot read property 'modalRef ' of null
-  const { modalRef } =
-    (useModalVisibility() as ModalVisibilityContextInterface) || {};
-  const historyStack =
-    useModalHistorySyncContext() as ModalHistorySyncContextInterface;
+  const { modalRef } = useModalVisibility() || {};
+  const historyStack = useModalHistorySyncContext();
 
   const postId = parseInt(href.slice(2));
 

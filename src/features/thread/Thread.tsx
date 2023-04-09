@@ -12,24 +12,16 @@ import { PostItem } from '../post';
 import { Separator } from '../ui';
 import CircularProgressIndicator from '../ui/CircularProgressIndicator';
 import Error from '../ui/error/Error';
-import {
-  ModalHistorySyncContextInterface,
-  useModalHistorySyncContext
-} from '../ui/modal/ModalHistorySyncContext';
-import {
-  ModalVisibilityContextInterface,
-  useModalVisibility
-} from '../ui/modal/ModalVisibilityContext';
-import { ThreadContextInterface, useThreadContext } from './ThreadContext';
+import { useModalHistorySyncContext } from '../ui/modal/ModalHistorySyncContext';
+import { useModalVisibility } from '../ui/modal/ModalVisibilityContext';
+import { useThreadContext } from './ThreadContext';
 import ThreadStats from './ThreadStats';
 
 function Thread({}, ref: React.Ref<FlatList>) {
   const route = useRoute<any>();
-  const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
-  const historyStack =
-    useModalHistorySyncContext() as ModalHistorySyncContextInterface;
-  const { data: thread, setData } =
-    useThreadContext() as ThreadContextInterface;
+  const { modalRef } = useModalVisibility();
+  const historyStack = useModalHistorySyncContext();
+  const { data: thread, setData } = useThreadContext();
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

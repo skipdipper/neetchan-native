@@ -1,6 +1,6 @@
 import { useState, useContext, createContext, useMemo } from 'react';
 
-export interface SearchContextInterface {
+interface SearchContextInterface {
   searchText: string;
   filteredData: Array<any>;
   setSearchText: (data: string) => void;
@@ -10,7 +10,15 @@ export interface SearchContextInterface {
 const SearchContext = createContext<SearchContextInterface | null>(null);
 
 // Custom hook to access SearchContext
-export const useSearchContext = () => useContext(SearchContext);
+export const useSearchContext = () => {
+  const context = useContext(SearchContext);
+
+  if (context === null) {
+    throw new Error('useSearchContext must be used within a SearchProvider');
+  }
+
+  return context;
+};
 
 type SearchProviderProps = {
   children: React.ReactNode;

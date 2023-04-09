@@ -1,17 +1,11 @@
 import React, { useRef } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
-import {
-  ScrollControllerContextInterface,
-  useScrollControllerContext
-} from '../features/media-viewer/ScrollControllerContext';
+import { useScrollControllerContext } from '../features/media-viewer/ScrollControllerContext';
 import Thread from '../features/thread/Thread';
 import { AppStatusBar } from '../features/ui';
 import Modal from '../features/ui/modal/Modal';
 import { ModalHistorySyncProvider } from '../features/ui/modal/ModalHistorySyncContext';
-import {
-  ModalVisibilityContextInterface,
-  useModalVisibility
-} from '../features/ui/modal/ModalVisibilityContext';
+import { useModalVisibility } from '../features/ui/modal/ModalVisibilityContext';
 
 type ThreadScreenProps = {
   navigation: any;
@@ -19,9 +13,8 @@ type ThreadScreenProps = {
 };
 
 export default function ThreadScreen({ navigation, route }: ThreadScreenProps) {
-  const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
-  const { scrollRef } =
-    useScrollControllerContext() as ScrollControllerContextInterface;
+  const { modalRef } = useModalVisibility();
+  const { scrollRef } = useScrollControllerContext();
 
   const prevScrollRef = useRef<FlatList | null>(null);
 

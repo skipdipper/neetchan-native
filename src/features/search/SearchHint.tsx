@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { SearchContextInterface, useSearchContext } from './SearchContext';
+import { useSearchContext } from './SearchContext';
 
 export default function SearchHint() {
-  const { searchText, filteredData } =
-    useSearchContext() as SearchContextInterface;
+  const { searchText, filteredData } = useSearchContext();
 
   return (
     <View style={styles.container}>

@@ -3,14 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import ReplyPostList from '../post/post-preview/ReplyPostList';
 import { Separator } from '../ui';
 import ModalButton from '../ui/modal/ModalButton';
-import {
-  ModalHistorySyncContextInterface,
-  useModalHistorySyncContext
-} from '../ui/modal/ModalHistorySyncContext';
-import {
-  ModalVisibilityContextInterface,
-  useModalVisibility
-} from '../ui/modal/ModalVisibilityContext';
+import { useModalHistorySyncContext } from '../ui/modal/ModalHistorySyncContext';
+import { useModalVisibility } from '../ui/modal/ModalVisibilityContext';
 
 type ThreadModalViewProps = {
   backdrop?: boolean;
@@ -19,9 +13,8 @@ type ThreadModalViewProps = {
 export default function ThreadModalView({
   backdrop = true
 }: ThreadModalViewProps) {
-  const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
-  const historyStack =
-    useModalHistorySyncContext() as ModalHistorySyncContextInterface;
+  const { modalRef } = useModalVisibility();
+  const historyStack = useModalHistorySyncContext();
 
   const handleBack = () => {
     historyStack.pop();

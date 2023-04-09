@@ -1,6 +1,6 @@
 import { useState, useContext, createContext, useMemo } from 'react';
 
-export interface SearchActiveContextInterface {
+interface SearchActiveContextInterface {
   searchActive: boolean;
   setSearchActive: (data: boolean) => void;
 }
@@ -9,7 +9,17 @@ const SearchActiveContext = createContext<SearchActiveContextInterface | null>(
   null
 );
 
-export const useSearchActiveContext = () => useContext(SearchActiveContext);
+export const useSearchActiveContext = () => {
+  const context = useContext(SearchActiveContext);
+
+  if (context === null) {
+    throw new Error(
+      'useSearchActiveContext must be used within a SearchActiveProvider'
+    );
+  }
+
+  return context;
+};
 
 type SearchActiveProviderProps = {
   children: React.ReactNode;

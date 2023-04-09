@@ -2,7 +2,7 @@ import { useRoute } from '@react-navigation/native';
 import React from 'react';
 import { ColorValue, StyleSheet, Text, TextProps } from 'react-native';
 import RenderHtml from '../../lib/RenderHtml';
-import { useThreadContext, ThreadContextInterface } from './ThreadContext';
+import { useThreadContext } from './ThreadContext';
 
 interface ThreadHeaderTitleProps extends TextProps {
   title?: string;
@@ -18,7 +18,7 @@ function ThreadHeaderTitle({
   const { threadId } = route.params;
 
   // TODO: fix re-render when navigation to gallery modal
-  const { data: thread } = useThreadContext() as ThreadContextInterface;
+  const { data: thread } = useThreadContext();
   const { subject, comment } = thread.get(threadId) || {};
   // subject or comment may be stll be undefined if fetching thread
   const headerTitle = subject ?? comment ?? '';

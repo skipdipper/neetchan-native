@@ -1,7 +1,7 @@
 import { useState, useContext, createContext } from 'react';
 import { CatalogPost } from '../../shared/types';
 
-export interface CatalogContextInterface {
+interface CatalogContextInterface {
   data: CatalogPost[];
   setData: (data: CatalogPost[]) => void;
 }
@@ -9,7 +9,15 @@ export interface CatalogContextInterface {
 const CatalogContext = createContext<CatalogContextInterface | null>(null);
 
 // Custom hook to access CatalogContext
-export const useCatalogContext = () => useContext(CatalogContext);
+export const useCatalogContext = () => {
+  const context = useContext(CatalogContext);
+
+  if (context === null) {
+    throw new Error('useCatalogContext must be used within a CatalogProvider');
+  }
+
+  return context;
+};
 
 type CatalogContextProps = {
   children: React.ReactNode;

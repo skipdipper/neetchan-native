@@ -1,14 +1,8 @@
 import React, { useRef } from 'react';
-import { StyleSheet, TextInput, View, Text } from 'react-native';
-import {
-  useCatalogContext,
-  CatalogContextInterface
-} from '../catalog/CatalogContext';
-import { SearchContextInterface, useSearchContext } from './SearchContext';
-import {
-  SearchActiveContextInterface,
-  useSearchActiveContext
-} from './SearchActiveContext';
+import { StyleSheet, TextInput, View } from 'react-native';
+import { useCatalogContext } from '../catalog/CatalogContext';
+import { useSearchContext } from './SearchContext';
+import { useSearchActiveContext } from './SearchActiveContext';
 import IconButton from '../ui/IconButton';
 
 type SearchInputProps = {
@@ -17,11 +11,10 @@ type SearchInputProps = {
 };
 
 export default function SearchInput({ onCancel, onClear }: SearchInputProps) {
-  const { data } = useCatalogContext() as CatalogContextInterface;
+  const { data } = useCatalogContext();
   const { searchText, setSearchText, filteredData, setFilteredData } =
-    useSearchContext() as SearchContextInterface;
-  const { setSearchActive } =
-    useSearchActiveContext() as SearchActiveContextInterface;
+    useSearchContext();
+  const { setSearchActive } = useSearchActiveContext();
 
   const searchInputRef = useRef<TextInput>(null);
 

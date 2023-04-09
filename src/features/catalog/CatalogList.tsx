@@ -5,7 +5,7 @@ import { CatalogPost } from '../../shared/types';
 import { Separator } from '../ui';
 import CircularProgressIndicator from '../ui/CircularProgressIndicator';
 import Error from '../ui/error/Error';
-import { CatalogContextInterface, useCatalogContext } from './CatalogContext';
+import { useCatalogContext } from './CatalogContext';
 import CatalogListItem from './CatalogListItem';
 
 type CatalogListProps = {
@@ -13,7 +13,7 @@ type CatalogListProps = {
 };
 
 function CatalogList({ board }: CatalogListProps, ref: React.Ref<FlatList>) {
-  const { data, setData } = useCatalogContext() as CatalogContextInterface;
+  const { data, setData } = useCatalogContext();
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

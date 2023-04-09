@@ -1,14 +1,8 @@
 import React, { useCallback } from 'react';
 import { Alert, Linking, Share } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {
-  ScrollControllerContextInterface,
-  useScrollControllerContext
-} from '../media-viewer/ScrollControllerContext';
-import {
-  ModalVisibilityContextInterface,
-  useModalVisibility
-} from '../ui/modal/ModalVisibilityContext';
+import { useScrollControllerContext } from '../media-viewer/ScrollControllerContext';
+import { useModalVisibility } from '../ui/modal/ModalVisibilityContext';
 import { PopupMenuButton, PopupMenuItem } from '../ui/popupmenu';
 import CatalogSortByMenu from './CatalogSortByMenu';
 
@@ -19,9 +13,8 @@ type CatalogPopupMenuButtonProps = {
 export default function CatalogPopupMenuButton({
   board
 }: CatalogPopupMenuButtonProps) {
-  const { scrollRef } =
-    useScrollControllerContext() as ScrollControllerContextInterface;
-  const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
+  const { scrollRef } = useScrollControllerContext();
+  const { modalRef } = useModalVisibility();
 
   const scrollToTop = () => {
     scrollRef.current?.scrollToIndex({

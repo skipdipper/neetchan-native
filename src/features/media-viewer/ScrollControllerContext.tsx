@@ -1,15 +1,24 @@
 import { useContext, createContext, useMemo, useRef } from 'react';
 import { FlatList } from 'react-native';
 
-const ScrollControllerContext =
-  createContext<ScrollControllerContextInterface | null>(null);
-
-export interface ScrollControllerContextInterface {
+interface ScrollControllerContextInterface {
   scrollRef: React.MutableRefObject<FlatList | null>;
 }
 
-export const useScrollControllerContext = () =>
-  useContext(ScrollControllerContext);
+const ScrollControllerContext =
+  createContext<ScrollControllerContextInterface | null>(null);
+
+export const useScrollControllerContext = () => {
+  const context = useContext(ScrollControllerContext);
+
+  if (context === null) {
+    throw new Error(
+      'useScrollControllerContext must be used within a ScrollControllerProvider'
+    );
+  }
+
+  return context;
+};
 
 type ScrollContextProps = {
   children: React.ReactNode;

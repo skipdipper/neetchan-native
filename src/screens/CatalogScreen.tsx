@@ -4,21 +4,12 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import CatalogHeaderBar from '../features/catalog/CatalogHeaderBar';
 import CatalogList from '../features/catalog/CatalogList';
 import CatalogListItem from '../features/catalog/CatalogListItem';
-import {
-  ScrollControllerContextInterface,
-  useScrollControllerContext
-} from '../features/media-viewer/ScrollControllerContext';
-import {
-  SearchActiveContextInterface,
-  useSearchActiveContext
-} from '../features/search/SearchActiveContext';
+import { useScrollControllerContext } from '../features/media-viewer/ScrollControllerContext';
+import { useSearchActiveContext } from '../features/search/SearchActiveContext';
 import SearchResult from '../features/search/SearchResult';
 import { AppStatusBar } from '../features/ui';
 import Modal from '../features/ui/modal/Modal';
-import {
-  ModalVisibilityContextInterface,
-  useModalVisibility
-} from '../features/ui/modal/ModalVisibilityContext';
+import { useModalVisibility } from '../features/ui/modal/ModalVisibilityContext';
 
 type CatalogScreenProps = {
   navigation: any;
@@ -30,11 +21,9 @@ export default function CatalogScreen({
   route
 }: CatalogScreenProps) {
   // TODO: React.Memo to prevent re-rendering from subscription to Context
-  const { searchActive } =
-    useSearchActiveContext() as SearchActiveContextInterface;
-  const { scrollRef } =
-    useScrollControllerContext() as ScrollControllerContextInterface;
-  const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
+  const { searchActive } = useSearchActiveContext();
+  const { scrollRef } = useScrollControllerContext();
+  const { modalRef } = useModalVisibility();
 
   const [board, setBoard] = useState('a');
 

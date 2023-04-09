@@ -1,21 +1,14 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import { PostItem } from '..';
-import {
-  ThreadContextInterface,
-  useThreadContext
-} from '../../thread/ThreadContext';
+import { useThreadContext } from '../../thread/ThreadContext';
 import { Separator } from '../../ui';
-import {
-  useModalHistorySyncContext,
-  ModalHistorySyncContextInterface
-} from '../../ui/modal/ModalHistorySyncContext';
+import { useModalHistorySyncContext } from '../../ui/modal/ModalHistorySyncContext';
 
 export default function ReplyPostList() {
-  const { data: thread } = useThreadContext() as ThreadContextInterface;
+  const { data: thread } = useThreadContext();
 
-  const historyStack =
-    useModalHistorySyncContext() as ModalHistorySyncContextInterface;
+  const historyStack = useModalHistorySyncContext();
   const replies = historyStack.peek() as Set<number>;
   // console.log('Pushed to Stack:', replies);
   // console.log('Current Stack Size:', historyStack.size());

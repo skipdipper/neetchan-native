@@ -24,10 +24,7 @@ import { useThreadContext } from '../features/thread/ThreadContext';
 import { AppStatusBar } from '../features/ui';
 import PageView from '../features/ui/PageView';
 import GalleryHeaderBar from '../features/media-viewer/GalleryHeaderBar';
-import {
-  ScrollControllerContextInterface,
-  useScrollControllerContext
-} from '../features/media-viewer/ScrollControllerContext';
+import { useScrollControllerContext } from '../features/media-viewer/ScrollControllerContext';
 
 const getGalleryItems = (data: Map<number, any> | Array<any>) => {
   if (Array.isArray(data)) {
@@ -78,8 +75,7 @@ export default function MediaViewerScreen({
   navigation,
   route
 }: MediaViewerScreenProps) {
-  const { scrollRef } =
-    useScrollControllerContext() as ScrollControllerContextInterface;
+  const { scrollRef } = useScrollControllerContext();
 
   const { tim, catalog } = route.params;
   // Get screen width for setting PageView item width
@@ -90,10 +86,9 @@ export default function MediaViewerScreen({
   // Ref object of key: video postId to value: GalleryVideo ref
   const videoItemRefs: MutableRefObject<any> = useRef({});
 
-  // Context maybe null if using default value
-  const threadData = useThreadContext();
-  const catalogData = useCatalogContext();
-  const data = catalog ? catalogData!.data : threadData!.data;
+  // Conditional Hook
+  // Calling both will throw an error because one is not called within the Provider
+  const { data } = catalog ? useCatalogContext() : useThreadContext();
 
   const galleryItems = getGalleryItems(data);
   const initialScrollIndex = getIndexOfGalleryItem(data, tim);

@@ -1,23 +1,16 @@
 import React from 'react';
 import { StyleSheet, Pressable, Text } from 'react-native';
 import ThreadModalView from '../../thread/ThreadModalView';
-import {
-  ModalHistorySyncContextInterface,
-  useModalHistorySyncContext
-} from '../../ui/modal/ModalHistorySyncContext';
-import {
-  useModalVisibility,
-  ModalVisibilityContextInterface
-} from '../../ui/modal/ModalVisibilityContext';
+import { useModalHistorySyncContext } from '../../ui/modal/ModalHistorySyncContext';
+import { useModalVisibility } from '../../ui/modal/ModalVisibilityContext';
 
 type SubjectProps = {
   replies: Set<number>;
 };
 
 export default function Replies({ replies }: SubjectProps) {
-  const { modalRef } = useModalVisibility() as ModalVisibilityContextInterface;
-  const historyStack =
-    useModalHistorySyncContext() as ModalHistorySyncContextInterface;
+  const { modalRef } = useModalVisibility();
+  const historyStack = useModalHistorySyncContext();
 
   const handlePress = () => {
     console.log('Pressed on Repies');

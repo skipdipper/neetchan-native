@@ -8,7 +8,7 @@ import {
   useEffect
 } from 'react';
 
-export interface ModalHistorySyncContextInterface {
+interface ModalHistorySyncContextInterface {
   push: (item: number | Set<number>) => void;
   pop: () => void;
   peek: () => number | Set<number>;
@@ -21,8 +21,17 @@ const ModalHistorySyncContext =
   createContext<ModalHistorySyncContextInterface | null>(null);
 
 // Custom hook to access ModalHistorySyncContext
-export const useModalHistorySyncContext = () =>
-  useContext(ModalHistorySyncContext);
+export const useModalHistorySyncContext = () => {
+  const context = useContext(ModalHistorySyncContext);
+
+  if (context === null) {
+    throw new Error(
+      'useModalHistorySyncContext must be used within a ModalHistorySyncProvider'
+    );
+  }
+
+  return context;
+};
 
 type ThreadContextProps = {
   children: React.ReactNode;
